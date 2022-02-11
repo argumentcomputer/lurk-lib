@@ -55,14 +55,14 @@
                 3))
 
 ;; outer-evaluate-let-simple
-!(:assert-eq 1 (let* ((a 1))
+!(:assert-eq 1 (let ((a 1))
                  a))
 
 ;; outer-evaluate-let-bug
-!(:assert-eq (cons 1 2) (let* () (cons 1 2)))
+!(:assert-eq (cons 1 2) (let () (cons 1 2)))
 
 ;; outer-evaluate-let
-!(:assert-eq 6 (let* ((a 1)
+!(:assert-eq 6 (let ((a 1)
                       (b 2)
                       (c 3))
                  (+ a (+ b c))))
@@ -80,23 +80,23 @@
 ;; NOTE: I think this test has drifted and is defunct.
 ;; It's equivalent to outer-evaluate-let-simple.
 ;; outer-evaluate-arithmetic-simplest
-!(:assert-eq 2 (let* ((x 2)) x))
+!(:assert-eq 2 (let ((x 2)) x))
 
 ;; outer-evaluate-arithmetic-let
-!(:assert-eq 20 (let* ((x 2)
+!(:assert-eq 20 (let ((x 2)
                        (y 3)
                        (z 4))
                   (* z (+ x y))))
 
 ;; outer-evaluate-arithmetic-comparison
-!(:assert-eq t (let* ((x 2)
+!(:assert-eq t (let ((x 2)
                       (y 3)
                       (z 4))
                  (= 20 (* z
                           (+ x y)))))
 
 ;; outer-evaluate-fundamental-conditional 1
-!(:assert-eq 5 (let* ((true (lambda (a)
+!(:assert-eq 5 (let ((true (lambda (a)
                               (lambda (b)
                                 a)))
                       (false (lambda (a)
@@ -110,7 +110,7 @@
                  (((if- 5) 6) true)))
 
 ;; outer-evaluate-fundamental-conditional 2
-!(:assert-eq 6 (let* ((true (lambda (a)
+!(:assert-eq 6 (let ((true (lambda (a)
                               (lambda (b)
                                 a)))
                       (false (lambda (a)
@@ -124,7 +124,7 @@
                  (((if- 5) 6) false)))
 
 ;; outer-evaluate-fundamental-conditional-bug
-!(:assert-eq 5 (let* ((true (lambda (a)
+!(:assert-eq 5 (let ((true (lambda (a)
                               (lambda (b)
                                 a)))
                       ;; NOTE: We cannot shadow IF because it is built-in.
@@ -141,7 +141,7 @@
 !(:assert-eq 10 (if t (+ 5 5) 6))
 
 ;; outer-evaluate-recursion
-!(:assert-eq 125 (letrec* ((exp (lambda (base)
+!(:assert-eq 125 (letrec ((exp (lambda (base)
                                   (lambda (exponent)
                                     (if (= 0 exponent)
                                         1
@@ -149,15 +149,15 @@
                           ((exp 5) 3)))
 
 ;; outer-evaluate-recursion-multiarg
-!(:assert-eq 125 (letrec* ((exp (lambda (base exponent)
+!(:assert-eq 125 (letrec ((exp (lambda (base exponent)
                                   (if (= 0 exponent)
                                       1
                                       (* base (exp base (- exponent 1)))))))
                           (exp 5 3)))
 
 ;; outer-evaluate-recursion-optimized
-!(:assert-eq 125 (let* ((exp (lambda (base)
-                               (letrec* ((base-inner
+!(:assert-eq 125 (let ((exp (lambda (base)
+                               (letrec ((base-inner
                                           (lambda (exponent)
                                             (if (= 0 exponent)
                                                 1
@@ -166,7 +166,7 @@
                    ((exp 5) 3)))
 
 ;; outer-evaluate-tail-recursion
-!(:assert-eq 125 (letrec* ((exp (lambda (base)
+!(:assert-eq 125 (letrec ((exp (lambda (base)
                                   (lambda (exponent-remaining)
                                     (lambda (acc)
                                       (if (= 0 exponent-remaining)
@@ -175,8 +175,8 @@
                           (((exp 5) 3) 1)))
 
 ;; outer-evaluate-tail-recursion-somewhat-optimized
-!(:assert-eq 125 (letrec* ((exp (lambda (base)
-                                  (letrec* ((base-inner
+!(:assert-eq 125 (letrec ((exp (lambda (base)
+                                  (letrec ((base-inner
                                              (lambda (exponent-remaining)
                                                (lambda (acc)
                                                  (if (= 0 exponent-remaining)
@@ -186,25 +186,25 @@
                           (((exp 5) 3) 1)))
 
 ;; outer-evaluate-no-mutual-recursion
-!(:assert-eq t (letrec* ((even (lambda (n)
+!(:assert-eq t (letrec ((even (lambda (n)
                                  (if (= 0 n)
                                      t
                                      (odd (- n 1)))))
                          (odd (lambda (n)
                                 (even (- n 1)))))
                         ;; NOTE: This is not true mutual-recursion.
-                        ;; However, it exercises the behavior of LETREC*.
+                        ;; However, it exercises the behavior of LETREC.
                         (odd 1)))
 
 ;; outer-evaluate-no-mutual-recursion
-!(:assert-error (letrec* ((even (lambda (n)
+!(:assert-error (letrec ((even (lambda (n)
                                   (if (= 0 n)
                                       t
                                       (odd (- n 1)))))
                           (odd (lambda (n)
                                  (even (- n 1)))))
                          ;; NOTE: This is not true mutual-recursion.
-                         ;; However, it exercises the behavior of LETREC*.
+                         ;; However, it exercises the behavior of LETREC.
                          (odd 2)))
 
 ;; outer-evaluate-let-scope
@@ -215,7 +215,7 @@
                   (closure 1)))
 
 ;; outer-evaluate-let-no-body
-!(:assert-eq nil (let* ((a 9))))
+!(:assert-eq nil (let ((a 9))))
 
 ;; outer-evaluate-cons 1
 !(:assert-eq 1 (car (cons 1 2)))
@@ -244,18 +244,18 @@
 !(:assert-eq 123 ((lambda () 123)))
 
 ;; outer-evaluate-zero-arg-lambda 2
-!(:assert-eq 10 (let* ((x 9) (f (lambda () (+ x 1)))) (f)))
+!(:assert-eq 10 (let ((x 9) (f (lambda () (+ x 1)))) (f)))
 
 ;; minimal-tail-call
-!(:assert-eq 123 (letrec*
+!(:assert-eq 123 (letrec
                   ((f (lambda (x)
                         (if (= x 140)
                             123
                             (f (+ x 1))))))
                   (f 0)))
 
-;; multiple-letrec*-bindings
-!(:assert-eq 123 (letrec*
+;; multiple-letrec-bindings
+!(:assert-eq 123 (letrec
                   ((x 888)
                    (f (lambda (x)
                         (if (= x 5)
@@ -264,7 +264,7 @@
                   (f 0)))
 
 ;; tail-call2
-!(:assert-eq 123 (letrec*
+!(:assert-eq 123 (letrec
                   ((f (lambda (x)
                         (if (= x 5)
                             123
@@ -274,18 +274,18 @@
 
 ;; outer-evaluate-make-tree
 !(:assert-eq '(((h . g) . (f . e)) . ((d . c) . (b . a)))
-             (letrec* ((mapcar (lambda (f list)
+             (letrec ((mapcar (lambda (f list)
                                  (if (eq list nil)
                                      nil
                                      (cons (f (car list)) (mapcar f (cdr list))))))
                        (make-row (lambda (list)
                                    (if (eq list nil)
                                        nil
-                                       (let* ((cdr (cdr list)))
+                                       (let ((cdr (cdr list)))
                                          (cons (cons (car list) (car cdr))
                                                (make-row (cdr cdr)))))))
                        (make-tree-aux (lambda (list)
-                                        (let* ((row (make-row list)))
+                                        (let ((row (make-row list)))
                                           (if (eq (cdr row) nil)
                                               row
                                               (make-tree-aux row)))))
@@ -300,17 +300,17 @@
                        (make-tree '(a b c d e f g h)))))
 
 ;; outer-evaluate-multiple-letrecstar-bindings
-!(:assert-eq 13 (letrec* ((double (lambda (x) (* 2 x)))
+!(:assert-eq 13 (letrec ((double (lambda (x) (* 2 x)))
                           (square (lambda (x) (* x x))))
                          (+ (square 3) (double 2))))
 
 ;; outer-evaluate-multiple-letrecstar-bindings-referencing
-!(:assert-eq 11 (letrec* ((double (lambda (x) (* 2 x)))
+!(:assert-eq 11 (letrec ((double (lambda (x) (* 2 x)))
                           (double-inc (lambda (x) (+ 1 (double x)))))
                          (+ (double 3) (double-inc 2))))
 
 ;; outer-evaluate-multiple-letrecstar-bindings-recursive
-!(:assert-eq 33 (letrec* ((exp (lambda (base exponent)
+!(:assert-eq 33 (letrec ((exp (lambda (base exponent)
                                  (if (= 0 exponent)
                                      1
                                      (* base (exp base (- exponent 1))))))
@@ -326,28 +326,28 @@
                             (exp3 4 2))))
 
 ;; dont-discard-rest-env
-!(:assert-eq 18 (let* ((z 9))
-                  (letrec* ((a 1)
+!(:assert-eq 18 (let ((z 9))
+                  (letrec ((a 1)
                             (b 2)
                             (l (lambda (x) (+ z x))))
                            (l 9))))
 
 ;; let-restore-saved-env
-!(:assert-error (+ (let* ((a 1)) a) a))
+!(:assert-error (+ (let ((a 1)) a) a))
 
 ;; let-restore-saved-env2
-!(:assert-error (+ (let* ((a 1) (a 2)) a) a))
+!(:assert-error (+ (let ((a 1) (a 2)) a) a))
 
-;; letrec*-restore-saved-env
-!(:assert-error (+ (letrec* ((a 1)(a 2)) a) a))
+;; letrec-restore-saved-env
+!(:assert-error (+ (letrec ((a 1)(a 2)) a) a))
 
 ;; lookup-restore-saved-env
-!(:assert-error (+ (let* ((a 1))
+!(:assert-error (+ (let ((a 1))
                      a)
                    a))
 
 ;; tail-call-restore-saved-env
-!(:assert-error (let* ((outer (letrec*
+!(:assert-error (let ((outer (letrec
                                ((x 888)
                                 (f (lambda (x)
                                      (if (= x 2)
@@ -358,8 +358,8 @@
                   (+ (outer 0) x)))
 
 ;; binop-restore-saved-env
-!(:assert-error (let* ((outer (let* ((f (lambda (x)
-                                          (+ (let* ((a 9)) a) x))))
+!(:assert-error (let ((outer (let ((f (lambda (x)
+                                          (+ (let ((a 9)) a) x))))
                                 f)))
                   ;; This should be an error. X should not be bound here.
                   (+ (outer 1) x)))
