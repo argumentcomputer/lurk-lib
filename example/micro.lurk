@@ -1,4 +1,4 @@
-(letrec*
+(letrec
     (
 
      (false
@@ -26,7 +26,7 @@
       (lambda (x1 x2) (eqv (cdr x1) (cdr x2))))
 
      (walk (lambda (u s)
-             (letrec* ((pr (if (varp u) (assp (lambda (v) (var=p u v)) s) nil)))
+             (letrec ((pr (if (varp u) (assp (lambda (v) (var=p u v)) s) nil)))
                (if pr (walk (cdr pr) s) u))))
 
      (ext-s (lambda (x v s) (cons (cons x v) s)))
@@ -48,12 +48,12 @@
 
      (== (lambda (u v)
            (lambda (s/c)
-             (letrec* ((s (unify u v (car s/c))))
+             (letrec ((s (unify u v (car s/c))))
                (if s (unit (cons s (cdr s/c))) mzero)))))
 
      (call/fresh (lambda (f)
                    (lambda (s/c)
-                     (letrec* ((c (cdr s/c)))
+                     (letrec ((c (cdr s/c)))
                        ((f (var c)) (cons (car s/c) (+ c 1)))))))
 
      (mplus

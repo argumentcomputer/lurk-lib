@@ -1,7 +1,7 @@
 !(:load "meta.lurk")
 
 !(:assert-eq 720
-             (let*
+             (let
                  ((Y '(lambda (fun)
                        ((lambda (F)
                           (F F))
@@ -19,7 +19,7 @@
 !(:load "meta-letrec.lurk")
 
 !(:assert-eq 720
-             (let*
+             (let
                  ((Y '(lambda (fun)
                        ((lambda (F)
                           (F F))

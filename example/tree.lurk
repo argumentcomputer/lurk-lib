@@ -1,15 +1,15 @@
-(letrec* ((mapcar (lambda (f list)
+(letrec ((mapcar (lambda (f list)
                     (if (eq list nil)
                         nil
                         (cons (f (car list)) (mapcar f (cdr list))))))
           (make-row (lambda (list)
                       (if (eq list nil)
                           nil
-                          (let* ((cdr (cdr list)))
+                          (let ((cdr (cdr list)))
                             (cons (cons (car list) (car cdr))
                                   (make-row (cdr cdr)))))))
           (make-tree-aux (lambda (list)
-                           (let* ((row (make-row list)))
+                           (let ((row (make-row list)))
                              (if (eq (cdr row) nil)
                                  row
                                  (make-tree-aux row)))))
