@@ -7,7 +7,7 @@
                  99))
 
 ;; outer-evaluate3
-!(:assert-eq 999 ((lamba (y)
+!(:assert-eq 999 ((lambda (y)
                     ((lambda (x)
                        ((lambda (z) z)
                         x))
@@ -15,12 +15,12 @@
                   999))
 
 ;; outer-evaluate4
-!(:assert-eq 828 ((lambda (y)
+!(:assert-eq 888 ((lambda (y)
                     ((lambda (x)
                        ((lambda (z) z)
                         x))
                      ;; NOTE: We pass a different value here.
-                     848))
+                     888))
                   999))
 
 ;; outer-evaluate5
