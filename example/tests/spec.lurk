@@ -7,7 +7,7 @@
                  99))
 
 ;; outer-evaluate3
-!(:assert-eq 999 ((lambda (y)
+!(:assert-eq 999 ((lamba (y)
                     ((lambda (x)
                        ((lambda (z) z)
                         x))
