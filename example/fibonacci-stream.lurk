@@ -1,0 +1,6 @@
+(letrec ((next (lambda (a b n)
+                 (next b
+                       (+ (emit a) b)
+                       (+ 1 n))))
+         (fib (lambda () (next 0 1 0))))
+        (current-env))
