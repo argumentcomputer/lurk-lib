@@ -1,0 +1,5 @@
+(defmacro quasi (x) (cons 'quote (cons x nil)))
+
+!(:assert-eq '(foo) `(foo))
+!(:assert-eq '(foo (uq 1)) `(foo ,1))
+!(:assert-eq '(foo (uqs '(1))) `(foo ,@'(1)))
