@@ -1,3 +1,4 @@
+;; (FIB TARGET) computes the element of the Fibonacci sequence at TARGET (zero-indexed).
 (letrec ((next (lambda (a b n target)
                  (if (eq n target)
                      a
@@ -5,5 +6,6 @@
                            (+ a b)
                            (+ 1 n)
                            target))))
-         (fib (next 0 1 0)))
+         (fib (next 1 1 0)))
         (current-env))
+
