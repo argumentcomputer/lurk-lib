@@ -6,5 +6,5 @@
                        (+ (if (emit (cons n a)) a a)
                           b)
                        (+ 1 n))))
-         (fib (lambda () (next 1 1 0))))
+         (fib (lambda () (next 0 1 0))))
         (current-env))
