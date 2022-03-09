@@ -20,3 +20,5 @@
 (defmacro bar3 (x) `,x)
 !(:assert-eq 2 (bar3 2))
 !(:assert-eq 2 (bar3 y))
+
+!(:assert-eq '(1 2 3 4 5) `(1 ,@'(2 3) ,@'(4 5)))

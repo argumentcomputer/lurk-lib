@@ -1,9 +1,21 @@
+(define append
+  (lambda (xs ys)
+    (if (eq xs nil)
+        ys
+        (cons (car xs) (append (cdr xs) ys)))))
+
+(define tagged-uqs
+  (lambda (exp)
+    (if (atom exp)
+        nil
+        (eq 'uqs (car exp)))))
+
 (defmacro quasi (exp)
   (if (atom exp)
       (cons 'quote (cons exp nil))
-      (if (eq 'uq (car exp))
+      (if (if (eq 'uq (car exp)) t (eq 'uqs (car exp)))
           (car (cdr exp))
-          (cons 'cons
+          (cons (if (tagged-uqs (car exp)) 'append 'cons)
                 (cons (cons 'quasi (cons (car exp) nil))
                       (cons
                        (cons 'quasi (cons (cdr exp) nil))
