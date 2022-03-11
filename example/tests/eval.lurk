@@ -1,3 +1,5 @@
 !(:assert-eq 3 (eval '(+ 1 2)))
 
 !(:assert-eq 3 (let ((x 1)) (eval '(+ x 2) (current-env))))
+
+!(:assert 3 (eval '((lambda (x y) y) 1 3)))
