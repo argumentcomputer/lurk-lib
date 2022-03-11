@@ -16,3 +16,12 @@
 
 (define to0 (lambda (n) (if (eq n 0) 'done (to0 (- n 1)))))
 !(:assert-eq 'done (to0 3))
+
+!(:clear)
+!(:assert-eq 2 (begin (define foo 1) (define bar 1) (+ foo bar)))
+
+!(:clear)
+(begin
+  (define foo 1)
+  (define bar 1))
+!(:assert-eq 2 (+ foo bar))
