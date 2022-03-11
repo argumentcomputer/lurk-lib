@@ -1,10 +1,63 @@
+;; Implementation from
+;; Appendix A Expansion Algorithm in
+;; Quasiquotation in Lisp by Alan Bawden (1999)
+;; https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.22.1290
+
+(define append
+  (lambda (xs ys)
+    (if (eq xs nil)
+        ys
+        (cons (car xs) (append (cdr xs) ys)))))
+
+(define list1
+  (lambda (x)
+    (cons x nil)))
+
+(define error
+  (lambda (msg)
+    nil))
+
+(define tagged
+  (lambda (tag)
+    (lambda (x)
+      (if (atom x)
+          nil
+          (eq tag (car x))))))
+
+(define tag-data (lambda (exp) (car (cdr exp))))
+
+(define qq-expand
+  (lambda (x)
+    (if ((tagged 'uq) x)
+        (tag-data x)
+        (if ((tagged 'uqs) x)
+            (error 'illegal)
+            (if ((tagged 'quasi) x)
+                (qq-expand (qq-expand (tag-data x)))
+                (if (atom x)
+                    (cons 'quote (cons x nil))
+                    (cons 'append
+                          (cons (qq-expand-list (car x))
+                                (cons (qq-expand (cdr x))
+                                      nil)))))))))
+
+(define qq-expand-list
+  (lambda (x)
+    (if ((tagged 'uq) x)
+        (cons 'list1 (cons (tag-data x) nil))
+        (if ((tagged 'uqs) x)
+            (tag-data x)
+            (if ((tagged 'quasi) x)
+                (qq-expand-list (qq-expand (tag-data x)))
+                (if (atom x)
+                    (cons 'quote (cons (cons x nil) nil))
+                    (cons 'list1
+                          (cons
+                           (cons 'append
+                                 (cons (qq-expand-list (car x))
+                                       (cons (qq-expand (cdr x))
+                                             nil)))
+                           nil))))))))
+
 (defmacro quasi (exp)
-  (if (atom exp)
-      (cons 'quote (cons exp nil))
-      (if (eq 'uq (car exp))
-          (car (cdr exp))
-          (cons 'cons
-                (cons (cons 'quasi (cons (car exp) nil))
-                      (cons
-                       (cons 'quasi (cons (cdr exp) nil))
-                       nil))))))
+  (qq-expand exp))
