@@ -23,3 +23,15 @@
 
 !(:assert-eq '(1 2 3 4 5) `(1 ,@'(2 3) ,@'(4 5)))
 !(:assert-eq '(1 (2 3) (4 5)) `(1 ,'(2 3) ,'(4 5)))
+
+!(:assert-eq '(foo 3) `(foo ,(+ 1 2)))
+
+!(:clear)
+
+(defmacro foo (x ys)
+  `(defmacro ,x ()
+     `(lambda ,',ys ,(car ',ys))))
+
+(foo bar (x y))
+
+!(:assert-eq 1 ((bar) 1 2))
