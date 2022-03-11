@@ -13,9 +13,11 @@
              ,(make-selectors (cdr xs) `(cdr ,s))))))
 
 (defmacro define-struct (name fields)
-  `(define ,name
-     (lambda (msg)
-       (if (eq msg 'new)
-           (lambda ,fields
-             (cons ',name ,(make-conses fields)))
-           ,(make-selectors fields '(cdr s))))))
+  `(let ((obj
+          (lambda (msg)
+            (if (eq msg 'new)
+                (lambda ,fields
+                  (cons ',name ,(make-conses fields)))
+                ,(make-selectors fields '(cdr s))))))
+     (defmacro ,name (msg)
+       `(',obj ',msg))))
