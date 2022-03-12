@@ -8,9 +8,9 @@
                     t
                     (likes-p-aux (cdr db) target-pair))
                 nil)))
-         ;; Add a like to db.
          (likes-p (lambda (db who whom)
                     (likes-p-aux db (cons who whom))))
+         ;; Add a like to db.
          (insert-like (lambda (db who whom)
                         (if (likes-p db who whom)
                             db
