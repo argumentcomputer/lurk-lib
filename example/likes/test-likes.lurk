@@ -1,0 +1,32 @@
+!(:load "likes.lurk")
+
+!(:assert-eq '(bob joe) (let ((db ())
+                              (db (insert-like db 'bob 'alice))
+                              (db (insert-like db 'joe 'alice))
+                              (db (insert-like db 'bob 'jane)))
+                          (who-likes db 'alice)))
+
+!(:assert-eq '(alice jane) (let ((db ())
+                                 (db (insert-like nil 'bob 'alice))
+                                 (db (insert-like db 'joe 'alice))
+                                 (db (insert-like db 'bob 'jane)))
+                             (likes-whom db 'bob)))
+
+!(:assert-eq '(jane) (let ((db ())
+                           (db (insert-like db 'bob 'alice))
+                           (db (insert-like db 'joe 'alice))
+                           (db (insert-like db 'bob 'jane))
+                           (db (remove-like db 'bob 'alice)))
+                       (likes-whom db 'bob)))
+
+!(:assert-eq 2 (let ((db ())
+                     (db (insert-like db 'bob 'alice))
+                     (db (insert-like db 'joe 'alice))
+                     (db (insert-like db 'bob 'jane)))
+                 (count-likes db 'alice)))
+
+!(:assert-eq '((jane . 1) (alice . 2)) (let ((db ())
+                                             (db (insert-like nil 'bob 'alice))
+                                             (db (insert-like db 'joe 'alice))
+                                             (db (insert-like db 'bob 'jane)))
+                                         (all-like-counts db)))

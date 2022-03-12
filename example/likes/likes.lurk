@@ -1,0 +1,96 @@
+;; A database to keep track of who likes whom.
+;; Simplest possible thing: the whole database is a list of likes, where a like is a (who . whom) pair.
+;; Very inefficient.
+(letrec ((likes-p-aux
+          (lambda (db target-pair)
+            (if db
+                (if (eq (car db) target-pair)
+                    t
+                    (likes-p-aux (cdr db) target-pair))
+                nil)))
+         (likes-p (lambda (db who whom)
+                    (likes-p-aux db (cons who whom))))
+         ;; Add a like to db.
+         (insert-like (lambda (db who whom)
+                        (if (likes-p db who whom)
+                            db
+                            (cons (cons who whom) db))))
+         (remove-like-aux (lambda (acc db target-pair)
+                            (let ((next-pair (car db)))
+                              (if db
+                                  (remove-like-aux (if (eq next-pair target-pair)
+                                                       acc
+                                                       (cons next-pair acc))
+                                                   (cdr db)
+                                                   target-pair)
+                                  acc))))
+         ;; Remove a specific like from db, if present, leaving db unchanged otherwise.
+         (remove-like-safe (lambda (db who whom)
+                             (if (likes-p db who whom)
+                                 (remove-like-aux nil db (cons who whom))
+                                 db)))
+         ;; Remove a specific like from db, if present, reversing the db. Cheaper than REMOVE-LIKE-SAFE when like is absent.
+         (remove-like (lambda (db who whom)
+                        (remove-like-aux nil db (cons who whom))))
+         (who-likes-aux (lambda (acc db whom)
+                          (if db
+                              (let ((pair (car db)))
+                                (who-likes-aux (if (eq (cdr pair) whom)
+                                                   (cons (car pair) acc)
+                                                   acc)
+                                               (cdr db)
+                                               whom))
+                              acc)))
+         ;; Return a list of everyone who likes a given whom.
+         (who-likes (lambda (db whom) (who-likes-aux nil db whom)))
+         (likes-whom-aux (lambda (acc db who)
+                          (if db
+                              (let ((pair (car db)))
+                                (likes-whom-aux (if (eq (car pair) who)
+                                                   (cons (cdr pair) acc)
+                                                   acc)
+                                               (cdr db)
+                                               who))
+                              acc)))
+         ;; Return a list of all whoms a specific someone likes.
+         (likes-whom (lambda (db who) (likes-whom-aux nil db who)))
+         (count-likes-aux (lambda (acc db whom)
+                            (if db
+                                (let ((pair (car db)))
+                                  (count-likes-aux (if (eq (cdr pair) whom)
+                                                       (+ acc 1)
+                                                       acc)
+                                                   (cdr db)
+                                                   whom))
+                                acc)))
+         ;; Returns a count of how many likes a specific whom has.
+         (count-likes (lambda (db whom) (count-likes-aux 0 db whom)))
+         ;; If ELT is a member of LIST, return the sublist of which ELT is the head.
+         (member (lambda (elt list)
+                   (if list
+                       (if (eq (car list) elt)
+                           list
+                           (member elt (cdr list)))
+                       nil)))
+         ;; If ELT is not already in LIST return the result of pushing ELT onto LIST, i.e. (ELT . LIST)
+         (pushnew (lambda (elt list)
+                    (if (member elt list)
+                        list
+                        (cons elt list))))
+         ;; Returns a list of all whoms.
+         (all-whoms-aux (lambda (acc db)
+                          (if db
+                              (all-whoms-aux (pushnew (cdr (car db)) acc) (cdr db))
+                              acc)))
+         (all-whoms (lambda (db) (all-whoms-aux nil db)))
+         (all-like-counts-aux (lambda (acc db whoms)
+                                (if whoms
+                                    (all-like-counts-aux
+                                     (let ((whom (car whoms))
+                                           (entry (cons whom (count-likes db whom))))
+                                       (cons entry acc))
+                                     db
+                                     (cdr whoms))
+                                    acc)))
+         (all-like-counts (lambda (db) (all-like-counts-aux nil db (all-whoms db)))))
+        (current-env))
