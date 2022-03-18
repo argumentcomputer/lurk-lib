@@ -1,0 +1,12 @@
+!(:load "quasi.lurk")
+!(:load "struct.lurk")
+
+(macroexpand '(define-struct point (x y)))
+
+(define-struct point (x y))
+
+(define p ((point new) 1 2))
+
+!(:assert-eq 1 ((point x) p))
+
+!(:assert-eq 2 ((point y) p))

@@ -1,0 +1,23 @@
+(define make-conses
+  (lambda (xs)
+    (if (eq xs nil)
+        nil
+        `(cons ,(car xs) ,(make-conses (cdr xs))))))
+
+(define make-selectors
+  (lambda (xs s)
+    (if (eq nil xs)
+        nil
+        `(if (eq msg ',(car xs))
+             (lambda (s) (car ,s))
+             ,(make-selectors (cdr xs) `(cdr ,s))))))
+
+(defmacro define-struct (name fields)
+  `(let ((obj
+          (lambda (msg)
+            (if (eq msg 'new)
+                (lambda ,fields
+                  (cons ',name ,(make-conses fields)))
+                ,(make-selectors fields '(cdr s))))))
+     (defmacro ,name (msg)
+       `(',obj ',msg))))
