@@ -465,10 +465,10 @@
 !(:assert-eq "sdf" (cdr "asdf"))
 
 ;; Construct a string from a character and another string.
-!(:assert-eq "dog" (cons #\d "og"))
+!(:assert-eq "dog" (strcons #\d "og"))
 
 ;; Including the empty string.
-!(:assert-eq "z" (cons #\z ""))
+!(:assert-eq "z" (strcons #\z ""))
 
 ;; The empty string is the string terminator ("")
 !(:assert-eq "" (cdr "x"))
