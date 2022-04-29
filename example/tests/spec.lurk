@@ -215,7 +215,7 @@
                   (closure 1)))
 
 ;; outer-evaluate-let-no-body
-!(:assert-eq nil (let ((a 9))))
+!(:assert-eq nil (let ((a 9)) nil))
 
 ;; outer-evaluate-cons 1
 !(:assert-eq 1 (car (cons 1 2)))
