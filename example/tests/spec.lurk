@@ -426,3 +426,19 @@
                                 f)))
                   ;; This should be an error. X should not be bound here.
                   (+ (outer 1) x)))
+
+;; env-let
+!(:assert-eq '((a . 1)) (let ((a 1)) (current-env)))
+
+;; env-let-nested
+!(:assert-eq '((b . 2) (a . 1)) (let ((a 1)) (let ((b 2)) (current-env))))
+
+;; env-letrec
+!(:assert-eq '(((a . 1))) (letrec ((a 1)) (current-env)))
+
+;; env-letrec-nested
+!(:assert-eq '(((b . 2)  (a . 1))) (letrec ((a 1)) (letrec ((b 2)) (current-env))))
+
+;; env-let-letrec-let
+!(:assert-eq '((e . 5) ((d . 4) (c . 3)) (b . 2) (a . 1))
+             (let ((a 1) (b 2)) (letrec ((c 3) (d 4)) (let ((e 5)) (current-env)))))
