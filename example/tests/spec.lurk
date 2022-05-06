@@ -215,7 +215,7 @@
                   (closure 1)))
 
 ;; outer-evaluate-let-no-body
-!(:assert-eq nil (let ((a 9)) nil))
+!(:assert-error (let ((a 9))))
 
 ;; outer-prove-quote-end-is-nil-error
 !(:assert-error (quote (1) (2)))
