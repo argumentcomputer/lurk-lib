@@ -454,4 +454,4 @@
                              (emit b))
                            (current-env))))
 
-!(:assert-emitted (begin (emit 1) (emit 2) (emit 3)) '(1 2 3))
+!(:assert-emitted '(1 2 3) (begin (emit 1) (emit 2) (emit 3)))
