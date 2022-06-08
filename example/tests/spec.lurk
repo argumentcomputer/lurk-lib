@@ -455,3 +455,35 @@
                            (current-env))))
 
 !(:assert-emitted '(1 2 3) (begin (emit 1) (emit 2) (emit 3)))
+
+;;; Strings are proper lists of characters and are tagged as such.
+
+;; Get the first character of a string with CAR
+!(:assert-eq #\a (car "asdf"))
+
+;; Get the tail with CDR
+!(:assert-eq "sdf" (cdr "asdf"))
+
+;; Construct a string from a character and another string.
+!(:assert-eq "dog" (cons #\d "og"))
+
+;; Including the empty string.
+!(:assert-eq "z" (cons #\z ""))
+
+;; The empty string is the string terminator ("")
+!(:assert-eq "" (cdr "x"))
+
+;; The CDR of the empty string is the empty string.
+!(:assert-eq "" (cdr ""))
+
+;; The CAR of the empty string is NIL (neither a character nor a string).
+!(:assert-eq nil (car ""))
+
+;; CONSing two strings yields a pair, not a string.
+!(:assert-eq '("a" . "b") (cons "a" "b"))
+
+;; CONSing two characters yields a pair, not a string.
+!(:assert-eq '(#\a . #\b) (cons #\a #\b))
+
+;;; A char is any 32-bit unicode character, but we currently only have reader support for whatever can be entered directly.
+!(:assert-eq #\Ŵ (car "ŴTF?"))
