@@ -465,10 +465,16 @@
 !(:assert-eq "sdf" (cdr "asdf"))
 
 ;; Construct a string from a character and another string.
-!(:assert-eq "dog" (cons #\d "og"))
+!(:assert-eq "dog" (strcons #\d "og"))
 
 ;; Including the empty string.
-!(:assert-eq "z" (cons #\z ""))
+!(:assert-eq "z" (strcons #\z ""))
+
+;; Construct a pair from a character and another string.
+!(:assert-eq '(#\d . "og") (cons #\d "og"))
+
+;; Including the empty string.
+!(:assert-eq '(#\z . "") (cons #\z ""))
 
 ;; The empty string is the string terminator ("")
 !(:assert-eq "" (cdr "x"))
@@ -484,6 +490,15 @@
 
 ;; CONSing two characters yields a pair, not a string.
 !(:assert-eq '(#\a . #\b) (cons #\a #\b))
+
+;; STRCONSing two strings is an error.
+!(:assert-error (strcons "a" "b"))
+
+;; STRCONSing two characters is an error.
+!(:assert-error (strcons #\a #\b))
+
+;; STRCONSing anything but a character and a string is an error.
+!(:assert-error (strcons 1 'foo))
 
 ;;; A char is any 32-bit unicode character, but we currently only have reader support for whatever can be entered directly.
 !(:assert-eq #\Ŵ (car "ŴTF?"))
