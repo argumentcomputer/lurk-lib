@@ -185,27 +185,16 @@
                                            base-inner))))
                           (((exp 5) 3) 1)))
 
-;; outer-evaluate-no-mutual-recursion
-!(:assert-eq t (letrec ((even (lambda (n)
-                                 (if (= 0 n)
-                                     t
-                                     (odd (- n 1)))))
-                         (odd (lambda (n)
-                                (even (- n 1)))))
-                        ;; NOTE: This is not true mutual-recursion.
-                        ;; However, it exercises the behavior of LETREC.
-                        (odd 1)))
-
-;; outer-evaluate-no-mutual-recursion
-!(:assert-error (letrec ((even (lambda (n)
+;; outer-evaluate-mutual-recursion
+!(:assert-eq nil (letrec ((even (lambda (n)
                                   (if (= 0 n)
                                       t
                                       (odd (- n 1)))))
-                          (odd (lambda (n)
-                                 (even (- n 1)))))
-                         ;; NOTE: This is not true mutual-recursion.
-                         ;; However, it exercises the behavior of LETREC.
-                         (odd 2)))
+                         (odd (lambda (n)
+                                (if (= n 0)
+                                    nil
+                                    (even (- n 1))))))
+                  (odd 2)))
 
 ;; outer-evaluate-let-scope
 
