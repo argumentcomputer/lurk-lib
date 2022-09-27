@@ -511,6 +511,12 @@
 
 !(:assert-eq 123 (open (num (commit 123))))
 
+;; Showing that (NUM c) is numeric.
+!(:assert-eq (num (commit 123)) (* 1 (num (commit 123))))
+
+!(:assert-eq (commit 123) (comm (num (commit 123))))
+
+
 !(:assert (let ((c (commit 123))
                 (c2 (hide 0 123)))
             (eq (num c) (num c2))))
