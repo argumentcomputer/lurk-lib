@@ -163,3 +163,10 @@
     (let ((f (lambda (x) (car x))))
       (let ((fc (compile f)))
         (fc '(6 1))))))
+
+!(:assert-eq
+  '(a b c)
+  (let ((a (lambda (b c) b)))
+    (let ((f (lambda (x) '(a b c))))
+      (let ((fc (compile f)))
+        (fc 1)))))
