@@ -52,7 +52,7 @@
           (if (member e params)
               e
               (lookup e env (lambda (v)
-                              ;;(if (procedure v) e v)
+                              ;;(if (functionp v) e v)
                               v
                               )
                       (lambda () (lookup e ram (lambda (v) v) (lambda () e)))))
