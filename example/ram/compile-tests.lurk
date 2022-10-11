@@ -119,6 +119,7 @@
 (define foo 1)
 (define foofun (compile (lambda (x) (+ x foo))))
 !(:assert-eq 3 (foofun 2))
+;; re-defining foo does not change the inlined foo value in foofun
 (define foo 2)
 !(:assert-eq 4 (foofun 3))
 
