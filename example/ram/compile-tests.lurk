@@ -153,6 +153,8 @@
 
 !(:assert-eq
   3
+  ;; this example just respects the semantics of Lurk,
+  ;; in which a built-in like + take precedence over the lexical environment
   (let ((+ (lambda (y z) (list y z))))
     (let ((f (lambda (x) (+ 1 2))))
       (let ((fc (compile f)))
@@ -160,6 +162,7 @@
 
 !(:assert-eq
   6
+  ;; ditto for built-in car
   (let ((car (lambda (y) y)))
     (let ((f (lambda (x) (car x))))
       (let ((fc (compile f)))
