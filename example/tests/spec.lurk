@@ -470,6 +470,12 @@
 ;; Including the empty string.
 !(:assert-eq "z" (strcons #\z ""))
 
+;; Construct a pair from a character and another string.
+!(:assert-eq '(#\d . "og") (cons #\d "og"))
+
+;; Including the empty string.
+!(:assert-eq '(#\z . "") (cons #\z ""))
+
 ;; The empty string is the string terminator ("")
 !(:assert-eq "" (cdr "x"))
 
@@ -485,5 +491,58 @@
 ;; CONSing two characters yields a pair, not a string.
 !(:assert-eq '(#\a . #\b) (cons #\a #\b))
 
+;; STRCONSing two strings is an error.
+!(:assert-error (strcons "a" "b"))
+
+;; STRCONSing two characters is an error.
+!(:assert-error (strcons #\a #\b))
+
+;; STRCONSing anything but a character and a string is an error.
+!(:assert-error (strcons 1 'foo))
+
 ;;; A char is any 32-bit unicode character, but we currently only have reader support for whatever can be entered directly.
 !(:assert-eq #\Ŵ (car "ŴTF?"))
+
+;;; Commitments
+!(:assert (let ((c (commit 123)))
+           (eq c (hide 0 123))))
+
+!(:assert-eq 123 (open (commit 123)))
+
+!(:assert-eq 123 (open (num (commit 123))))
+
+;; Showing that (NUM c) is numeric.
+!(:assert-eq (num (commit 123)) (* 1 (num (commit 123))))
+
+!(:assert-eq (commit 123) (comm (num (commit 123))))
+
+
+!(:assert (let ((c (commit 123))
+                (c2 (hide 0 123)))
+            (eq (num c) (num c2))))
+
+
+;;; Char-Num conversions.
+!(:assert-eq 65 (num #\A))
+
+!(:assert-eq #\A (char 65))
+
+;;; Relational comparisons
+!(:assert (let ((most-positive (/ (- 0 1) 2))
+                (most-negative (+ 1 most-positive)))
+            (< most-negative most-positive)))
+
+!(:assert (< 1 2))
+!(:assert (<= 1 2))
+!(:assert (<= 1 1))
+!(:assert (> 2 1))
+!(:assert (>= 2 1))
+!(:assert (>= 1 1))
+
+;;; Extended numeric syntax
+!(:assert-eq (- 0 1) -1)
+!(:assert-eq (/ 1 2) 1/2)
+!(:assert-eq (- 0 (/ 1 2)) -1/2)
+
+!(:assert-eq 5/6 (+ 1/3 1/2))
+
