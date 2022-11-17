@@ -1,0 +1,62 @@
+;; a list is of the form (cons a (cons b (cons ... (cons nil)...)))
+;; some definitions for lists 
+
+;; empty_list : the empty list
+(let ((empty_list '())) (current-env))
+
+;; some functions for lists 
+
+;; list : make a list out of a (possibly unevaluated) list quote
+(letrec ((list (lambda (q)
+		 (if (car q)
+		     (cons (eval (car q)) (list (cdr q)))
+		     '()))))
+  (current-env))
+
+;; list_eq : determine if two lists are equal
+(letrec ((list_eq (lambda (l1 l2)
+    (if (car l1) 
+        (if (car l2)
+            (if (= (car l1) (car l2))
+                (list_eq (cdr l1) (cdr l2))
+                nil)
+            nil)
+        (if (car l2)
+            nil
+            t)))))
+    (current-env))
+
+;; snoc : appends to the right-hand side of a list (opposite of cons)
+(letrec 
+    ((snoc_iter (lambda (old_list new_list) 
+        (if (car old_list)
+            (snoc_iter (cdr old_list) (cons (car old_list) new_list))
+            new_list)))
+    (snoc (lambda (x lst) (snoc_iter (snoc_iter lst '()) (cons x nil))))) 
+    (current-env))
+
+;; list_length : determines the length of a list 
+(letrec 
+    ((length_iter (lambda (lst cntr)
+        (if (car lst)
+            (length_iter (cdr lst) (+ 1 cntr))
+            cntr)))
+    (list_length (lambda (lst) (length_iter lst 0))))
+    (current-env))
+
+;; list_map : a list map function 
+(letrec 
+    ((map_iter (lambda (lst fun accum)
+        (if (car lst)
+            (map_iter (cdr lst) fun (snoc (fun (car lst)) accum))
+            accum)))
+    (list_map (lambda (lst fun) (map_iter lst fun (cons nil nil)))))
+    (current-env))
+
+;; list_fold : a fold function over lists 
+(letrec 
+    ((list_fold (lambda (lst op accum)
+        (if (car lst)
+            (list_fold (cdr lst) op (op (car lst) accum))
+            accum))))
+    (current-env))

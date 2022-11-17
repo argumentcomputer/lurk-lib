@@ -1,0 +1,3 @@
+!(:load "list.lurk")
+
+;; some tests for the list module 
