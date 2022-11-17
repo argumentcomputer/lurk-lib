@@ -102,3 +102,7 @@
             (if (< a b) 1
             (+ 1 (quot a b)))))))))
     (current-env))
+
+
+;; safe integer square 
+(let ((safe_square (lambda (x) (safe_mult x x)))) (current-env))
