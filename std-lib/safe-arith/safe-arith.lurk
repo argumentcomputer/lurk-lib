@@ -7,6 +7,11 @@
 ;; In particular, it is possible for the product or the sum of two 
 ;; positive integers to be negative
 
+;; here we implement "safe" integer arithmetic, which is:
+;; integer arithmetic which evaluates correctly when it behaves like 
+;; normal integer arithmetic, but evaluates to `nil` when it 
+;; behaves oddly due to us using a finite field
+
 ;; a simple function to switch from negative to positive and visa versa
 (let ((neg (lambda (n) (- 0 n)))) (current-env))
 
