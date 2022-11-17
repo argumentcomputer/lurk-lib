@@ -1,0 +1,13 @@
+!(:load "bool.lurk")
+
+;; test that (bool_neg nil) evaluates to t
+!(:assert (bool_neg nil))
+
+;; four test cases for eq_bool
+!(:assert (eq_bool t t))
+!(:assert (eq_bool nil nil))
+!(:assert (bool_neg (eq_bool t nil)))
+!(:assert (bool_neg (eq_bool nil t)))
+
+;; test that (bool_neg t) evaluates to nil
+!(:assert (eq_bool nil (bool_neg t)))

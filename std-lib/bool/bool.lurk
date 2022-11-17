@@ -1,0 +1,20 @@
+;; some boolean operations 
+
+;; determine if two bools are equal 
+(let ((eq_bool (lambda (x y)
+    (if x
+        (if y
+            t
+            nil)
+        (if y
+            nil
+            t )))))
+    (current-env))
+
+;; negate a boolean
+(let ((bool_neg (lambda (x) 
+    (if (eq_bool x nil)
+        t
+        (if (eq_bool x t)
+            nil)))))
+    (current-env))
