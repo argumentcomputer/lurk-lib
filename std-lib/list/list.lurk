@@ -130,3 +130,19 @@
 		      b
 		      (reverse a)))))
     (current-env))
+
+;; drop : drops n items from the front of list l, returning the rest
+(letrec ((drop (lambda (n l)
+                 (if (= n 0)
+                     l
+                     (if l
+                         (drop (- n 1) (cdr l)))))))
+  (current-env))
+
+;; take : takes the first n items from the front of the list l
+(letrec ((take (lambda (n l)
+                 (if (= n 0)
+                     nil
+                     (if l
+                         (cons (car l) (take (- n 1) (cdr l))))))))
+  (current-env))
