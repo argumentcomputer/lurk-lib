@@ -5,21 +5,25 @@
 ;; some tests for the list module 
 !(:assert-eq (apply (lambda (x y) (+ x y)) '(10 20)) 30)
 
+;; test snoc 
+!(:assert-eq '(1 2 3 4) (snoc 4 '(1 2 3)))
+
 ;; test list-n 
 !(:assert-eq '(nil nil) (list-n 2))
 !(:assert-eq 10 (length (list-n 10)))
 
+;; test numbered-list-n 
+!(:assert-eq '(0 1 2 3) (numbered-list-n 3))
+!(:assert-eq 11 (length (numbered-list-n 10)))
+
 ;; test list-get 
 !(:assert-eq 4 (list-get 2 '(1 2 4 3)))
 
-;; test list 
-!(:assert-eq '(2 4) (list '((+ 1 1) (* 2 2))))
-
-;; test snoc 
-!(:assert-eq '(1 2 3 4) (snoc 4 '(1 2 3)))
-
 ;; test list-update
 !(:assert-eq '(1 2 3) (list-update 1 2 '(1 1 3)))
+
+;; test list 
+!(:assert-eq '(2 4) (list '((+ 1 1) (* 2 2))))
 
 ;; test length 
 !(:assert-eq 3 (length '(1 2 3)))

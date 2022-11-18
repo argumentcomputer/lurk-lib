@@ -2,6 +2,15 @@
 
 ;; a list is of the form (cons a (cons b (cons ... (cons nil)...)))
 
+;; snoc : appends to the right-hand side of a list (opposite of cons)
+(letrec 
+    ((snoc-iter (lambda (old-list new-list) 
+        (if (car old-list)
+            (snoc-iter (cdr old-list) (cons (car old-list) new-list))
+            new-list)))
+    (snoc (lambda (x lst) (snoc-iter (snoc-iter lst '()) (cons x nil))))) 
+    (current-env))
+
 ;; list-n : make an empty list of size n
 (letrec 
     ((list-n-iter (lambda (n list)
@@ -11,6 +20,17 @@
     (list-n (lambda (n) (list-n-iter n nil))))
     (current-env))
 
+;; numbered-list-n : make a numbered list from 0 to n of length (n + 1)
+(letrec 
+    ((numbered-list-iter (lambda (n list) 
+        (if (= n 0)
+            (cons 0 list)
+            (numbered-list-iter (- n 1) (cons n list)))))
+    (numbered-list-n (lambda (n)
+        (numbered-list-iter n nil))))
+    (current-env))
+
+
 ;; list-get : get the nth (0-indexed) value of a list 
 (letrec 
     ((list-get (lambda (place list)
@@ -18,23 +38,6 @@
             (if (= 0 place)
                 (car list)
                 (list-get (- place 1) (cdr list)))))))
-    (current-env))
-
-
-;; list : make a list out of a (possibly unevaluated) list quote
-(letrec ((list (lambda (q)
-		 (if (car q)
-		     (cons (eval (car q)) (list (cdr q)))
-		     '()))))
-  (current-env))
-
-;; snoc : appends to the right-hand side of a list (opposite of cons)
-(letrec 
-    ((snoc-iter (lambda (old-list new-list) 
-        (if (car old-list)
-            (snoc-iter (cdr old-list) (cons (car old-list) new-list))
-            new-list)))
-    (snoc (lambda (x lst) (snoc-iter (snoc-iter lst '()) (cons x nil))))) 
     (current-env))
 
 ;; list-update : update the nth (0-indexed) value of a list 
@@ -58,6 +61,13 @@
     (list-update (lambda (place value list) 
         (list-update-iter place value list nil)))) 
     (current-env))
+
+;; list : make a list out of a (possibly unevaluated) list quote
+(letrec ((list (lambda (q)
+		 (if (car q)
+		     (cons (eval (car q)) (list (cdr q)))
+		     '()))))
+  (current-env))
 
 ;; length : determines the (0-indexed) length of a list 
 (letrec 
