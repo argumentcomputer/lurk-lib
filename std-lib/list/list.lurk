@@ -40,13 +40,12 @@
 
 ;; map : a list map function 
 ;; TODO : map that can take multiple lists
-(letrec 
-    ((map-iter (lambda (fun lst accum)
-        (if (car lst)
-            (map-iter fun (cdr lst) (snoc (fun (car lst)) accum))
-            accum)))
-    (map (lambda (fun lst) (map-iter fun lst (cons nil nil)))))
-    (current-env))
+(letrec ((map (lambda (f list)
+                    (if (eq list nil)
+                        nil
+                        (cons (f (car list))
+                              (map f (cdr list)))))))
+      (current-env))
 
 
 ;; fold : a fold function over lists 
