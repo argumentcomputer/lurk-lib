@@ -7,14 +7,15 @@
 (letrec (
 
     ; parity tests
-    (odd (lambda (x) (< (/ x 2) 0)))
-    (even (lambda (x) (eq NIL (odd x))))
+    (odd (lambda (a) (< (/ a 2) 0)))
+    (even (lambda (a) (eq NIL (odd a))))
 
     ; square & multiply exponentiation
     (fastexp (lambda (b e)
         (if (= e 0) 1
             (if (even e) (fastexp (* b b) (/ e 2))
                 (* b (fastexp (* b b) (/ (- e 1) 2)))))))
+
     ; GCD
     (gcd (lambda (a b) 
         (if (= a b) a
@@ -22,59 +23,61 @@
                 (gcd (- b a) a)))))
 
     ; hash function, poseidon-like
+    ; 2-element permutation used by the hash
     ; NOT cryptographically safe
-
-    (mat1 (lambda (a b) (+ (/ a 3) (* b 5))))
-    (mat2 (lambda (a b) (+ (/ a 7) (* b 9))))
-
-    (sbox (lambda (a) (fastexp a 5)))
-
-    (add1 (lambda (a) (+ a (/ 2 3))))
-    (add2 (lambda (a) (+ a (/ 3 2))))
-
-    (rnd (lambda (a b) 
-        (cons
-            (add1 (sbox (mat1 a b)))
-            (add2 (sbox (mat2 a b))))))
-
-    (perm (lambda (a b)
+    (permute (lambda (a b)
         (letrec ( 
+            (rnd (lambda (i a b) (let (
+                (mat1 (lambda (a b) (+ (/ a 3) (* b 5))))
+                (mat2 (lambda (a b) (+ (/ a 7) (* b 9))))
+                (sbox (lambda (a) (fastexp a 5)))
+                (add1 (lambda (a) (+ a (/ 2 3))))
+                (add2 (lambda (a) (+ a (/ 3 2))))
+                )
+                (cons
+                    (+ i (add1 (sbox (mat1 a b))))
+                    (add2 (sbox (mat2 a b)))))))
             (iter (lambda (i a b)
                 (if (= i 4) ; 4 rounds
                     (cons a b)
                     (let (
-                        (res (rnd a b))
+                        (res (rnd i a b))
                         (a (car res))
                         (b (cdr res))
                         )
                         (iter (+ i 1) a b)))))) 
             (iter 0 a b))))
 
+    ; initial state of the hash will be (0 iv)
     (iv (/ 5 2))
 
-    (hash1 (lambda (a) (car (perm a iv))))
+    ; hash 1 element
+    (hash1 (lambda (a) (car (permute a iv))))
 
+    ; hash 2 elements
     (hash2 (lambda (a b) 
         (let (
-            (res1 (perm a iv))
-            (res2 (perm (+ b (car res1)) (cdr res1)))
+            (res1 (permute a iv))
+            (res2 (permute (+ b (car res1)) (cdr res1)))
             )
             (car res2))))
 
-    (hashn (lambda (l) 
-        (if (eq l nil) nil
+    ; hash a list of elements
+    ; such that (hashn '(a b)) = (hash2 a b)
+    (hashn (lambda (alist) 
+        (if (eq alist nil) nil
         (let (
-            (res0 (perm (car l) iv))
+            (res0 (permute (car alist) iv))
             )
             (letrec (
-                (iter (lambda (ll a b) 
-                    (if (eq ll nil) a
+                (iter (lambda (blist a b) 
+                    (if (eq blist nil) a
                         (let (
-                            (res (perm (+ (car ll) a) b))
+                            (res (permute (+ (car blist) a) b))
                             )
-                            (iter (cdr ll) (car res) (cdr res))))))
+                            (iter (cdr blist) (car res) (cdr res))))))
                 )
-                (iter (cdr l) (car res0) (cdr res0)))))))
+                (iter (cdr alist) (car res0) (cdr res0)))))))
 )
 (current-env))
 
