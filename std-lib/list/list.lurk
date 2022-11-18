@@ -20,11 +20,20 @@
     (reverse (lambda (list) (reverse-iter list nil)))) 
     (current-env))
 
-;; cadr 
-(let ((cadr (lambda (list) (car (cdr list))))) (current-env))
-
-;; cddr 
-(let ((cddr (lambda (list) (cdr (cdr list))))) (current-env))
+;; cxxxr combinations (up to 3) 
+(let ((cadr (lambda (list) (car (cdr list))))
+      (caar (lambda (list) (car (car list))))
+      (cdar (lambda (list) (cdr (car list))))
+      (cddr (lambda (list) (cdr (cdr list))))
+      (cdddr (lambda (list) (car (cdr (cdr list)))))
+      (cddar (lambda (list) (cdr (cdr (car list)))))
+      (cdaar (lambda (list) (cdr (car (car list)))))
+      (cdadr (lambda (list) (cdr (car (cdr list)))))
+      (caaar (lambda (list) (car (car (car list)))))
+      (cadar (lambda (list) (cdr (cdr (car list)))))
+      (caadr (lambda (list) (cdr (car (cdr list)))))
+      (caddr (lambda (list) (cdr (cdr (cdr list))))))
+  (current-env))
 
 ;; list-n : make an empty list of size n
 (letrec 
