@@ -7,3 +7,9 @@
 (let ((eq-bool (lambda (x y)
     (if x  y (eq y nil)))))
     (current-env))
+
+;; logical and 
+(let ((and (lambda (b1 b2) (if b1 (if b2 t))))) (current-env))
+
+;; logical or
+(let ((or  (lambda (b1 b2) (if b1 t (if b2 t))))) (current-env))
