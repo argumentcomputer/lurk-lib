@@ -1,0 +1,29 @@
+;; misc.lurk
+;;
+;; DESCRIPTION
+;; misc crypto/math functions
+;; 
+;; TODO
+;; fastexp, odd/even
+
+(letrec (
+        (gcd (lambda (a b) 
+            (if (= a b) a
+                (if (> a b) (gcd (- a b) b)
+                    (gcd (- b a) a)
+                    )
+                )
+            )
+        )
+        (odd t) 
+        (even (lambda (x) (eq NIL (odd x))))
+        (fastexp (lambda (b e)
+            (if (= e 0) 1
+                (if (even n) (fastexp (* b b) (/ e 2))
+                    (* b (fastexp (* b b) ((- n 1) 2)))
+                    )
+                )
+            )
+        )
+    )
+(current-env))

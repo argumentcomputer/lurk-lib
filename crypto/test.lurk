@@ -1,0 +1,8 @@
+!(:load "hash.lurk")
+!(:load "misc.lurk")
+
+!(:assert-eq (hash1 1) 0x3fa021f93d2992dda891400a07497f536d9cf2487d87044f6a2b6bb5738e7648)
+
+!(assert-eq (gcd 129 (-0 1))
+
+
