@@ -15,8 +15,8 @@
 ;; a simple function to switch from negative to positive and visa versa
 (let ((neg (lambda (n) (- 0 n)))) (current-env))
 
-;; safe_add and safe_subtract make addition behave as in the integers
-(let ((safe_add (lambda (a b)
+;; safe-add and safe-subtract make addition behave as in the integers
+(let ((safe-add (lambda (a b)
     (if (< a 0)
         (if (< b 0)
             ;; the sum of two negatives should be negative
@@ -32,7 +32,7 @@
                 (+ a b)))))))
     (current-env))
 
-(let ((safe_sub (lambda (a b)
+(let ((safe-sub (lambda (a b)
     (if (< a 0)
         (if (< b 0)
             ;; the difference of two negatives is safe
@@ -50,8 +50,8 @@
             (- a b))))))
     (current-env))
 
-;; safe_mult makes multiplication behave as in the integers
-(let ((safe_mult (lambda (a b)
+;; safe-mult makes multiplication behave as in the integers
+(let ((safe-mult (lambda (a b)
     (if (< a 0)
         (if (< b 0)
             ;; the product of two negatives is positive 
@@ -72,42 +72,42 @@
 ;; integer division, where division by 0 results in 0
 ;; first an auxiliary function `quot`
 (letrec 
-    ((quot_iter (lambda (a b q) 
+    ((quot-iter (lambda (a b q) 
         (if (< a b) 
-            (quot_iter b a 0)
+            (quot-iter b a 0)
             (if (< (* b (+ q 1)) 0)
                 q
                 (if (> (* b (+ q 1)) a)
                     q 
-                    (quot_iter a b (+ q 1)))))))
+                    (quot-iter a b (+ q 1)))))))
     (quot (lambda (a b)
         (if (< a 0)
             (quot (- 0 a) b)
             (if (< b 0)
                 (quot a (- 0 b))
-                (quot_iter a b 0))))))
+                (quot-iter a b 0))))))
     (current-env))
 
 ;; integer division that rounds down
-(letrec ((floor_int_div 
+(letrec ((floor-int-div 
     (lambda (a b) 
         (if (= b 0) 0
-        (if (< a 0) (- 0 (floor_int_div (- 0 a) b))
-        (if (< b 0) (- 0 (floor_int_div a (- 0 b)))
+        (if (< a 0) (- 0 (floor-int-div (- 0 a) b))
+        (if (< b 0) (- 0 (floor-int-div a (- 0 b)))
             (if (< a b) 0
             (quot a b))))))))
     (current-env))
 
 ;; integer division that rounds up
-(letrec ((ceil_int_div 
+(letrec ((ceil-int-div 
     (lambda (a b) 
         (if (= b 0) 0
-        (if (< a 0) (- 0 (ceil_int_div (- 0 a) b))
-        (if (< b 0) (- 0 (ceil_int_div a (- 0 b)))
+        (if (< a 0) (- 0 (ceil-int-div (- 0 a) b))
+        (if (< b 0) (- 0 (ceil-int-div a (- 0 b)))
             (if (< a b) 1
             (+ 1 (quot a b)))))))))
     (current-env))
 
 
 ;; safe integer square 
-(let ((safe_square (lambda (x) (safe_mult x x)))) (current-env))
+(let ((safe-square (lambda (x) (safe-mult x x)))) (current-env))

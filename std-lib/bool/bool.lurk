@@ -1,7 +1,7 @@
 ;; some boolean operations 
 
 ;; determine if two bools are equal 
-(let ((eq_bool (lambda (x y)
+(let ((eq-bool (lambda (x y)
     (if x
         (if y
             t
@@ -12,9 +12,9 @@
     (current-env))
 
 ;; negate a boolean
-(let ((bool_neg (lambda (x) 
-    (if (eq_bool x nil)
+(let ((bool-neg (lambda (x) 
+    (if (eq-bool x nil)
         t
-        (if (eq_bool x t)
+        (if (eq-bool x t)
             nil)))))
     (current-env))
