@@ -11,6 +11,12 @@
     (snoc (lambda (x lst) (snoc-iter (snoc-iter lst '()) (cons x nil))))) 
     (current-env))
 
+;; cadr 
+(let ((cadr (lambda (list) (car (cdr list))))) (current-env))
+
+;; cddr 
+(let ((cddr (lambda (list) (cdr (cdr list))))) (current-env))
+
 ;; list-n : make an empty list of size n
 (letrec 
     ((list-n-iter (lambda (n list)

@@ -8,6 +8,12 @@
 ;; test snoc 
 !(:assert-eq '(1 2 3 4) (snoc 4 '(1 2 3)))
 
+;; test cadr 
+!(:assert-eq 2 (cadr '(1 2 3)))
+
+;; test cddr 
+!(:assert (= 3 (cddr '(1 2 3))))
+
 ;; test list-n 
 !(:assert-eq '(nil nil) (list-n 2))
 !(:assert-eq 10 (length (list-n 10)))
