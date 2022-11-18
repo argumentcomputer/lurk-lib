@@ -3,11 +3,6 @@
 ;; negate a boolean
 (let ((bool-neg (lambda (x) (if x nil t)))) (current-env))
 
-;; determine if two bools are equal 
-(let ((eq-bool (lambda (x y)
-    (if x  y (eq y nil)))))
-    (current-env))
-
 ;; logical and 
 (let ((and (lambda (b1 b2) (if b1 (if b2 t))))) (current-env))
 

@@ -2,25 +2,23 @@
 
 ;; test that (bool-neg nil) evaluates to t
 !(:assert (bool-neg nil))
-!(:assert (bool-neg (bool-neg t)))
+!(:assert (eq nil (bool-neg t)))
 
 ;; four test cases for eq-bool
-!(:assert (eq-bool t t))
-!(:assert (eq-bool nil nil))
-!(:assert (bool-neg (eq-bool t nil)))
-!(:assert (bool-neg (eq-bool nil t)))
+!(:assert (eq nil (eq-bool t nil)))
+!(:assert (eq nil (eq-bool nil t)))
 
 ;; test that (bool-neg t) evaluates to nil
-!(:assert (eq-bool nil (bool-neg t)))
+!(:assert (eq nil (bool-neg t)))
 
 ;; test logical and 
 !(:assert (and t t))
-!(:assert (bool-neg (and t nil)))
-!(:assert (bool-neg (and nil t)))
-!(:assert (bool-neg (and nil nil)))
+!(:assert (eq nil (and t nil)))
+!(:assert (eq nil (and nil t)))
+!(:assert (eq nil (and nil nil)))
 
 ;; test logical or 
 !(:assert (or t t))
 !(:assert (or t nil))
 !(:assert (or nil t))
-!(:assert (bool-neg (or nil nil)))
+!(:assert (eq nil (or nil nil)))

@@ -7,19 +7,6 @@
 		     '()))))
   (current-env))
 
-;; list-eq : determine if two lists are equal
-(letrec ((list-eq (lambda (l1 l2)
-    (if (car l1) 
-        (if (car l2)
-            (if (= (car l1) (car l2))
-                (list-eq (cdr l1) (cdr l2))
-                nil)
-            nil)
-        (if (car l2)
-            nil
-            t)))))
-    (current-env))
-
 ;; snoc : appends to the right-hand side of a list (opposite of cons)
 (letrec 
     ((snoc-iter (lambda (old-list new-list) 
