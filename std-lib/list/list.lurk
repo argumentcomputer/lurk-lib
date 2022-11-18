@@ -99,12 +99,12 @@
 
 ;; apply : a preliminary version of apply
 (letrec 
-    ((apply (lambda (f list)
-        (if (car list)
-            (if (eq nil (cdr list))
-                (f (car list))
-                (apply (f (car list)) (cdr list)))))))
-    (current-env))
+    ((apply1 (lambda (f list)
+               (if list
+		   (if (cdr list)
+                       (apply1 (f (car list)) (cdr list))
+                       (f (car list)))))))
+  (current-env))
 
 ;; map : a list map function 
 ;; TODO : map that can take multiple lists
