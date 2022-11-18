@@ -48,15 +48,6 @@
     (map (lambda (fun lst) (map-iter fun lst (cons nil nil)))))
     (current-env))
 
-;; apply : an implementation of the CL `apply` function
-(letrec 
-    ((apply (lambda (fun lst) 
-        (if (car lst)
-            (if (car (cdr lst))
-                (if (car (cdr (cdr lst)))
-                    (apply fun (cons (fun (car lst) (car (cdr lst))) (cdr (cdr lst))))
-                    (fun (car lst) (car (cdr lst)))))))))
-    (current-env))
 
 ;; fold : a fold function over lists 
 (letrec 
