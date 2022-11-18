@@ -38,6 +38,15 @@
     (length (lambda (lst) (length-iter lst 0))))
     (current-env))
 
+;; apply : a preliminary version of apply
+(letrec 
+    ((apply (lambda (f list)
+        (if (car list)
+            (if (eq nil (cdr list))
+                (f (car list))
+                (apply (f (car list)) (cdr list)))))))
+    (current-env))
+
 ;; map : a list map function 
 ;; TODO : map that can take multiple lists
 (letrec ((map (lambda (f list)
