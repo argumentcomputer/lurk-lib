@@ -79,13 +79,6 @@
         (list-update-iter place value list nil)))) 
     (current-env))
 
-;; list : make a list out of a (possibly unevaluated) list quote
-(letrec ((list (lambda (q)
-		 (if (car q)
-		     (cons (eval (car q)) (list (cdr q)))
-		     '()))))
-  (current-env))
-
 ;; length : determines the (0-indexed) length of a list 
 (letrec 
     ((length-iter (lambda (lst cntr)
