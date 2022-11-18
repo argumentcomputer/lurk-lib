@@ -11,13 +11,13 @@
     (snoc (lambda (x lst) (snoc-iter (snoc-iter lst '()) (cons x nil))))) 
     (current-env))
 
-;; list-reverse : reverses the order of a list 
+;; reverse : reverses the order of a list 
 (letrec 
     ((reverse-iter (lambda (list1 list2) 
         (if (car list1)
             (reverse-iter (cdr list1) (cons (car list1) list2))
             list2))) 
-    (list-reverse (lambda (list) (reverse-iter list nil)))) 
+    (reverse (lambda (list) (reverse-iter list nil)))) 
     (current-env))
 
 ;; cadr 
@@ -46,14 +46,16 @@
     (current-env))
 
 
-;; list-get : get the nth (0-indexed) value of a list 
-(letrec 
-    ((list-get (lambda (place list)
-        (if (car list)
-            (if (= 0 place)
-                (car list)
-                (list-get (- place 1) (cdr list)))))))
+;; nth : get the nth (0-indexed) value of a list 
+(letrec ((nth (lambda (place list)
+    (if (car list)
+        (if (= 0 place)
+            (car list)
+            (nth (- place 1) (cdr list)))))))
     (current-env))
+
+;; last : get the last element of a list
+(let ((last (lambda (list) (car (reverse list))))) (current-env))
 
 ;; list-update : update the nth (0-indexed) value of a list 
 ;;               if (< (length list) n) then list-update returns 

@@ -8,8 +8,8 @@
 ;; test snoc 
 !(:assert-eq '(1 2 3 4) (snoc 4 '(1 2 3)))
 
-;; test list-reverse 
-!(:assert-eq '(3 2 1) (list-reverse '(1 2 3)))
+;; test reverse 
+!(:assert-eq '(3 2 1) (reverse '(1 2 3)))
 
 ;; test cadr 
 !(:assert-eq 2 (cadr '(1 2 3)))
@@ -25,8 +25,11 @@
 !(:assert-eq '(0 1 2 3) (numbered-list-n 3))
 !(:assert-eq 11 (length (numbered-list-n 10)))
 
-;; test list-get 
-!(:assert-eq 4 (list-get 2 '(1 2 4 3)))
+;; test nth 
+!(:assert-eq 4 (nth 2 '(1 2 4 3)))
+
+;; test last 
+!(:assert-eq 3 (last '(1 2 3)))
 
 ;; test list-update
 !(:assert-eq '(1 2 3) (list-update 1 2 '(1 1 3)))
