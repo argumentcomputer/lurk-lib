@@ -1,5 +1,4 @@
 ;; !(:load "../bool/bool.lurk")
-;; TODO : last, nth, take, drop, filter, reverse
 
 ;; a list is of the form (cons a (cons b (cons ... (cons nil)...)))
 
@@ -119,4 +118,11 @@
         (if (car lst)
             (fold op (op accum (car lst)) (cdr lst))
             accum))))
+    (current-env))
+
+;; concat : concatenates two lists 
+(let ((concat (lambda (a b)
+    (fold (lambda (l i) (snoc i l))
+        a
+        b)))) 
     (current-env))

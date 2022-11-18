@@ -45,3 +45,6 @@
 
 ;; test fold 
 !(:assert-eq 6 (fold (lambda (x y) (+ x y)) 0 '(1 2 3)))
+
+;; test concat 
+!(:assert-eq '(1 2 3 4) (concat '(1 2) '(3 4)))
