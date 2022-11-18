@@ -115,6 +115,14 @@
                               (map f (cdr list)))))))
       (current-env))
 
+;; filter : takes a predicate and a list and returns only the items
+;; that match the predicate
+(letrec ((filter (lambda (pred lst)
+                   (if lst
+                       (if (pred (car lst))
+                           (cons (car lst) (filter pred (cdr lst)))
+                           (filter pred (cdr lst)))))))
+  (current-env))
 
 ;; fold : a fold function over lists 
 (letrec 
