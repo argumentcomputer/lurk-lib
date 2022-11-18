@@ -1,4 +1,25 @@
+;; !(:load "../bool/bool.lurk")
+
 ;; a list is of the form (cons a (cons b (cons ... (cons nil)...)))
+
+;; list-n : make an empty list of size n
+(letrec 
+    ((list-n-iter (lambda (n list)
+        (if (= n 0)
+            list
+            (list-n-iter (- n 1) (cons nil list)))))
+    (list-n (lambda (n) (list-n-iter n nil))))
+    (current-env))
+
+;; list-get : get the nth (0-indexed) value of a list 
+(letrec 
+    ((list-get (lambda (place list)
+        (if (car list)
+            (if (= 0 place)
+                (car list)
+                (list-get (- place 1) (cdr list)))))))
+    (current-env))
+
 
 ;; list : make a list out of a (possibly unevaluated) list quote
 (letrec ((list (lambda (q)
@@ -16,10 +37,32 @@
     (snoc (lambda (x lst) (snoc-iter (snoc-iter lst '()) (cons x nil))))) 
     (current-env))
 
-;; length : determines the length of a list 
+;; list-update : update the nth (0-indexed) value of a list 
+;;               if (< (length list) n) then list-update returns 
+;;               an unchanged list
+(letrec 
+    ((list-update-iter (lambda (place value old_list new_list)
+        (if (car old_list)
+            (if (= 0 place)
+                (list-update-iter 
+                    (- place 1) 
+                    nil 
+                    (cdr old_list) 
+                    (snoc value new_list))
+                (list-update-iter
+                    (- place 1)
+                    value 
+                    (cdr old_list)
+                    (snoc (car old_list) new_list)))
+            new_list)))
+    (list-update (lambda (place value list) 
+        (list-update-iter place value list nil)))) 
+    (current-env))
+
+;; length : determines the (0-indexed) length of a list 
 (letrec 
     ((length-iter (lambda (lst cntr)
-        (if (car lst)
+        (if (neq nil lst)
             (length-iter (cdr lst) (+ 1 cntr))
             cntr)))
     (length (lambda (lst) (length-iter lst 0))))
