@@ -44,4 +44,4 @@
 !(:assert-eq '(2 4 6) (map (lambda (x) (* 2 x)) '(1 2 3)))
 
 ;; test fold 
-!(:assert-eq 6 (fold '(1 2 3) (lambda (x y) (+ x y)) 0))
+!(:assert-eq 6 (fold (lambda (x y) (+ x y)) 0 '(1 2 3)))
