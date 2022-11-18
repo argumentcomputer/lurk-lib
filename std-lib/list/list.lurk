@@ -117,7 +117,7 @@
 
 ;; concat : concatenates two lists 
 (let ((concat (lambda (a b)
-    (fold (lambda (l i) (snoc i l))
-        a
-        b)))) 
+		(fold (lambda (l i) (cons i l))
+		      b
+		      (reverse a)))))
     (current-env))
