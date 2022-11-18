@@ -2,6 +2,7 @@
 
 ;; test that (bool-neg nil) evaluates to t
 !(:assert (bool-neg nil))
+!(:assert (bool-neg (bool-neg t)))
 
 ;; four test cases for eq-bool
 !(:assert (eq-bool t t))
