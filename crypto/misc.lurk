@@ -4,7 +4,7 @@
 ;; misc crypto/math functions
 ;; 
 ;; TODO
-;; fastexp, odd/even
+;; 
 
 (letrec (
         (gcd (lambda (a b) 
@@ -15,14 +15,14 @@
                 )
             )
         )
-        (odd t) 
+        (odd (lambda (x) (< (/ x 2) 0)))
         (even (lambda (x) (eq NIL (odd x))))
         (fastexp (lambda (b e)
             (if (= e 0) 1
-                (if (even n) (fastexp (* b b) (/ e 2))
-                    (* b (fastexp (* b b) ((- n 1) 2)))
+                (if (even e) (fastexp (* b b) (/ e 2))
+                    (* b (fastexp (* b b) (/ (- e 1) 2)))
                     )
-                )
+                ) 
             )
         )
     )
