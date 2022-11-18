@@ -5,5 +5,5 @@
 
 ;; determine if two bools are equal 
 (let ((eq-bool (lambda (x y)
-    (if x y (bool-neg y)))))
+    (if x  y (eq y nil)))))
     (current-env))
