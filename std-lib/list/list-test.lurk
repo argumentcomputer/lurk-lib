@@ -8,6 +8,9 @@
 ;; test snoc 
 !(:assert-eq '(1 2 3 4) (snoc 4 '(1 2 3)))
 
+;; test list-reverse 
+!(:assert-eq '(3 2 1) (list-reverse '(1 2 3)))
+
 ;; test cadr 
 !(:assert-eq 2 (cadr '(1 2 3)))
 

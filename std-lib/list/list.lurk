@@ -11,6 +11,15 @@
     (snoc (lambda (x lst) (snoc-iter (snoc-iter lst '()) (cons x nil))))) 
     (current-env))
 
+;; list-reverse : reverses the order of a list 
+(letrec 
+    ((reverse-iter (lambda (list1 list2) 
+        (if (car list1)
+            (reverse-iter (cdr list1) (cons (car list1) list2))
+            list2))) 
+    (list-reverse (lambda (list) (reverse-iter list nil)))) 
+    (current-env))
+
 ;; cadr 
 (let ((cadr (lambda (list) (car (cdr list))))) (current-env))
 
