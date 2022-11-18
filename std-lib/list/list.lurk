@@ -35,28 +35,28 @@
     (snoc (lambda (x lst) (snoc-iter (snoc-iter lst '()) (cons x nil))))) 
     (current-env))
 
-;; list-length : determines the length of a list 
+;; length : determines the length of a list 
 (letrec 
     ((length-iter (lambda (lst cntr)
         (if (car lst)
             (length-iter (cdr lst) (+ 1 cntr))
             cntr)))
-    (list-length (lambda (lst) (length-iter lst 0))))
+    (length (lambda (lst) (length-iter lst 0))))
     (current-env))
 
-;; list-map : a list map function 
+;; map : a list map function 
 (letrec 
     ((map-iter (lambda (lst fun accum)
         (if (car lst)
             (map-iter (cdr lst) fun (snoc (fun (car lst)) accum))
             accum)))
-    (list-map (lambda (lst fun) (map-iter lst fun (cons nil nil)))))
+    (map (lambda (lst fun) (map-iter lst fun (cons nil nil)))))
     (current-env))
 
-;; list-fold : a fold function over lists 
+;; fold : a fold function over lists 
 (letrec 
-    ((list-fold (lambda (lst op accum)
+    ((fold (lambda (lst op accum)
         (if (car lst)
-            (list-fold (cdr lst) op (op (car lst) accum))
+            (fold (cdr lst) op (op (car lst) accum))
             accum))))
     (current-env))
