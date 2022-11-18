@@ -1,0 +1,80 @@
+;; crypto.lurk
+;; 
+;; simple crypto-related functions
+;;
+
+
+(letrec (
+
+    ; parity tests
+    (odd (lambda (x) (< (/ x 2) 0)))
+    (even (lambda (x) (eq NIL (odd x))))
+
+    ; square & multiply exponentiation
+    (fastexp (lambda (b e)
+        (if (= e 0) 1
+            (if (even e) (fastexp (* b b) (/ e 2))
+                (* b (fastexp (* b b) (/ (- e 1) 2)))))))
+    ; GCD
+    (gcd (lambda (a b) 
+        (if (= a b) a
+            (if (> a b) (gcd (- a b) b)
+                (gcd (- b a) a)))))
+
+    ; hash function, poseidon-like
+    ; NOT cryptographically safe
+
+    (mat1 (lambda (a b) (+ (/ a 3) (* b 5))))
+    (mat2 (lambda (a b) (+ (/ a 7) (* b 9))))
+
+    (sbox (lambda (a) (fastexp a 5)))
+
+    (add1 (lambda (a) (+ a (/ 2 3))))
+    (add2 (lambda (a) (+ a (/ 3 2))))
+
+    (rnd (lambda (a b) 
+        (cons
+            (add1 (sbox (mat1 a b)))
+            (add2 (sbox (mat2 a b))))))
+
+    (perm (lambda (a b)
+        (letrec ( 
+            (iter (lambda (i a b)
+                (if (= i 4) ; 4 rounds
+                    (cons a b)
+                    (let (
+                        (res (rnd a b))
+                        (a (car res))
+                        (b (cdr res))
+                        )
+                        (iter (+ i 1) a b)))))) 
+            (iter 0 a b))))
+
+    (iv (/ 5 2))
+
+    (hash1 (lambda (a) (car (perm a iv))))
+
+    (hash2 (lambda (a b) 
+        (let (
+            (res1 (perm a iv))
+            (res2 (perm (+ b (car res1)) (cdr res1)))
+            )
+            (car res2))))
+
+    (hashn (lambda (l) 
+        (if (eq l nil) nil
+        (let (
+            (res0 (perm (car l) iv))
+            )
+            (letrec (
+                (iter (lambda (ll a b) 
+                    (if (eq ll nil) a
+                        (let (
+                            (res (perm (+ (car ll) a) b))
+                            )
+                            (iter (cdr ll) (car res) (cdr res))))))
+                )
+                (iter (cdr l) (car res0) (cdr res0)))))))
+)
+(current-env))
+

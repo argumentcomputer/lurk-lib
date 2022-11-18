@@ -1,0 +1,20 @@
+!(:load "crypto.lurk")
+
+!(:assert-eq (odd 0) NIL)
+!(:assert-eq (odd 121) T)
+!(:assert-eq (odd (/ 2 3)) T)
+
+!(:assert-eq (even 0) T)
+!(:assert-eq (even 121) NIL)
+!(:assert-eq (even (/ 2 3)) NIL)
+
+!(assert-eq (fastexp 129 13) 2739468013418114691600975489)
+!(assert-eq (fastexp 129 921) 0x188bc6b313e74bcf3c8f8ddb1311c5e892b271c636866b64930d3357600c7f3f)
+
+!(assert-eq gcd 11856 25883) 13)
+
+!(:assert-eq (hash1 3) 0x077a1cb681f1c487921164346e0987a09a34f98a5bb3845e48f7d91a69d5d747)
+!(:assert-eq (hashn '(1 2 3 4 5)) 0x0663650e316b2e62f71016bc7a7db84a88d06769568020d3265133ce53cb4aab)
+
+
+
