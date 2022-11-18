@@ -1,10 +1,4 @@
 ;; a list is of the form (cons a (cons b (cons ... (cons nil)...)))
-;; some definitions for lists 
-
-;; empty-list : the empty list
-(let ((empty-list '())) (current-env))
-
-;; some functions for lists 
 
 ;; list : make a list out of a (possibly unevaluated) list quote
 (letrec ((list (lambda (q)
@@ -45,12 +39,13 @@
     (current-env))
 
 ;; map : a list map function 
+;; TODO : map that can take multiple lists
 (letrec 
-    ((map-iter (lambda (lst fun accum)
+    ((map-iter (lambda (fun lst accum)
         (if (car lst)
-            (map-iter (cdr lst) fun (snoc (fun (car lst)) accum))
+            (map-iter fun (cdr lst) (snoc (fun (car lst)) accum))
             accum)))
-    (map (lambda (lst fun) (map-iter lst fun (cons nil nil)))))
+    (map (lambda (fun lst) (map-iter fun lst (cons nil nil)))))
     (current-env))
 
 ;; fold : a fold function over lists 
