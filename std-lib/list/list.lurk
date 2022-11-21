@@ -25,14 +25,14 @@
       (caar (lambda (list) (car (car list))))
       (cdar (lambda (list) (cdr (car list))))
       (cddr (lambda (list) (cdr (cdr list))))
-      (cdddr (lambda (list) (car (cdr (cdr list)))))
+      (cdddr (lambda (list) (cdr (cdr (cdr list)))))
       (cddar (lambda (list) (cdr (cdr (car list)))))
       (cdaar (lambda (list) (cdr (car (car list)))))
       (cdadr (lambda (list) (cdr (car (cdr list)))))
       (caaar (lambda (list) (car (car (car list)))))
       (cadar (lambda (list) (cdr (cdr (car list)))))
-      (caadr (lambda (list) (cdr (car (cdr list)))))
-      (caddr (lambda (list) (cdr (cdr (cdr list))))))
+      (caadr (lambda (list) (car (car (cdr list)))))
+      (caddr (lambda (list) (car (cdr (cdr list))))))
   (current-env))
 
 ;; list-n : make an empty list of size n
