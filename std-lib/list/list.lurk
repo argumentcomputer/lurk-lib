@@ -70,20 +70,20 @@
 ;;               if (< (length list) n) then list-update returns 
 ;;               an unchanged list
 (letrec 
-    ((list-update-iter (lambda (place value old_list new_list)
-        (if (car old_list)
+    ((list-update-iter (lambda (place value old-list new-list)
+        (if (car old-list)
             (if (= 0 place)
                 (list-update-iter 
                     (- place 1) 
                     nil 
-                    (cdr old_list) 
-                    (snoc value new_list))
+                    (cdr old-list) 
+                    (snoc value new-list))
                 (list-update-iter
                     (- place 1)
                     value 
-                    (cdr old_list)
-                    (snoc (car old_list) new_list)))
-            new_list)))
+                    (cdr old-list)
+                    (snoc (car old-list) new-list)))
+            new-list)))
     (list-update (lambda (place value list) 
         (list-update-iter place value list nil)))) 
     (current-env))
