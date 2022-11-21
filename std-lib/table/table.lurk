@@ -1,16 +1,15 @@
-!(:load "../list/list.lurk")
+;; !(:load "../list/list.lurk")
 
 ;; some operations on tables 
 
 ;; create a table 
 (letrec 
     ((create-table (lambda (rows cols)
-        (fold 
-            (numbered-list n) 
-            (lambda (n) 
-                (list-update n ()))
-            (empty-list-n cols)))))
-    (current-ev))
+        (fold
+            (lambda (accum l) (list-update l (list-n rows) accum))
+            (list-n cols)
+            (numbered-list-n (- cols 1))))))
+    (current-env))
 
 ;; update a table 
 (letrec ((table-update (lambda (value row col table)
