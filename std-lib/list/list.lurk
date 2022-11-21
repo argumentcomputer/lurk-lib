@@ -103,7 +103,8 @@
                (if list
 		   (if (cdr list)
                        (apply1 (f (car list)) (cdr list))
-                       (f (car list)))))))
+                       (f (car list)))
+		   (f)))))
   (current-env))
 
 ;; map : a list map function 
