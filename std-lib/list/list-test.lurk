@@ -52,3 +52,15 @@
 !(:assert-eq '(1 2 3 4) (concat '(1 2) '(3 4)))
 !(:assert-eq '(1 2 3 4) (concat '() '(1 2 3 4)))
 !(:assert-eq '(1 2 3 4) (concat '(1 2 3 4) '()))
+
+;; test take
+!(:assert-eq '(1 2 3) (take 3 '(1 2 3 4 5)))
+!(:assert-eq '() (take 0 '(1 2 3 4 5)))
+!(:assert-eq '(1 2 3) (take 5 '(1 2 3)))
+
+;; test drop
+!(:assert-eq '(3 4 5) (drop 2 '(1 2 3 4 5)))
+!(:assert-eq '() (drop 6 '(1 2 3 4 5)))
+
+;; test filter
+!(:assert-eq '(3 4 5) (filter (lambda (x) (> x 2)) '(1 2 3 4 0 5)))
