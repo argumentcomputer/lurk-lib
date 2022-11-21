@@ -91,11 +91,11 @@
 ;; length : determines the (0-indexed) length of a list 
 (letrec 
     ((length-iter (lambda (lst cntr)
-        (if (neq nil lst)
-            (length-iter (cdr lst) (+ 1 cntr))
-            cntr)))
-    (length (lambda (lst) (length-iter lst 0))))
-    (current-env))
+		    (if lst
+			(length-iter (cdr lst) (+ 1 cntr))
+			cntr)))
+     (length (lambda (lst) (length-iter lst 0))))
+  (current-env))
 
 ;; apply : a preliminary version of apply
 (letrec 
