@@ -11,3 +11,6 @@
 
 ;; logical or
 (let ((or  (lambda (b1 b2) (if b1 t (if b2 t))))) (current-env))
+
+;; logical not
+(let ((not (lambda (b) (if b nil T)))) (current-env))
