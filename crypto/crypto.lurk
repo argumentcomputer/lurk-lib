@@ -79,7 +79,15 @@
                 )
                 (iter (cdr alist) (car res0) (cdr res0)))))))
     
-    (drbg (lambda (seed) NIL)) ; TODO
+    ; TODO
+    (drbg (lambda (seed len) 
+        (if (= len 0) nil
+        (let (
+            (res0 (permute seed iv)
+            (out '(car res0)
+            )
+            (letrec (
+    NIL)) 
 )
 (current-env))
 
