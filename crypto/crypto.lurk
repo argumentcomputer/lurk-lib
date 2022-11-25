@@ -1,7 +1,9 @@
-;; crypto.lurk
-;; 
-;; simple crypto-related functions
-;;
+; crypto.lurk
+; 
+; simple crypto-related functions
+;
+; load in repl as:
+; > :load "crypto.lurk"
 
 
 (letrec (
@@ -80,14 +82,14 @@
                 (iter (cdr alist) (car res0) (cdr res0)))))))
     
     ; TODO
-    (drbg (lambda (seed len) 
-        (if (= len 0) nil
-        (let (
-            (res0 (permute seed iv)
-            (out '(car res0)
-            )
-            (letrec (
-    NIL)) 
+   ; (drbg (lambda (seed len) 
+   ;     (if (= len 0) nil
+   ;     (let (
+   ;         (res0 (permute seed iv)
+   ;         (out '(car res0)
+   ;         )
+   ;         (letrec (
+   ; NIL)) 
 )
 (current-env))
 
