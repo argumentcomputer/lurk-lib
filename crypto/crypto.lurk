@@ -80,16 +80,17 @@
                             (iter (cdr blist) (car res) (cdr res))))))
                 )
                 (iter (cdr alist) (car res0) (cdr res0)))))))
-    
-    ; TODO
-   ; (drbg (lambda (seed len) 
-   ;     (if (= len 0) nil
-   ;     (let (
-   ;         (res0 (permute seed iv)
-   ;         (out '(car res0)
-   ;         )
-   ;         (letrec (
-   ; NIL)) 
+
+    ; basic 8-leaf tree
+    (tree8 (lambda (a b c d e f g h)
+        (hash2 
+            (hash2 (hash2 a b) (hash2 c d)) 
+            (hash2 (hash2 c d) (hash2 e f))))) 
+
+    ; proof of membership check
+    (treeproof8 (lambda (root x h1 h2 h3)
+        (eq root (hash2 h1 (hash2 h2 (hash2 h3 x))))))
+            
 )
 (current-env))
 
