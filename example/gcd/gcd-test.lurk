@@ -1,0 +1,11 @@
+!(:load "gcd.lurk")
+
+!(:assert-eq 7 (gcd 14 35))
+!(:assert-eq 7 (gcd 14 -35))
+!(:assert-eq 7 (gcd-pos 14 35))
+!(:assert-eq 0 (gcd-pos 14 -35))
+
+!(:assert-eq 1 (gcd 101 11))
+!(:assert-eq 1 (gcd -101 11))
+!(:assert-eq 1 (gcd-pos 101 11))
+!(:assert-eq 0 (gcd-pos -101 11))

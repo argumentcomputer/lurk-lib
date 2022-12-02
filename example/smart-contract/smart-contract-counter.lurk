@@ -1,0 +1,14 @@
+!(:load "smart-contract.lurk")
+
+;; A counter contract, where:
+;; - state is a nat
+;; - update-state adds the msg to the state
+;; and a msg is an int then
+
+;; to initiate the smart contract, we 
+;; provide an update-state function and an init-state.
+(let 
+    ((update-state (lambda (state msg) (+ state msg)))
+    (init-state 10))
+    ;; initiate the contract 
+    (sc-init update-state init-state))
