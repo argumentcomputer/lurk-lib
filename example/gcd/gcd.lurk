@@ -1,0 +1,37 @@
+;; a function to find the GCD of two integers
+
+(letrec (
+    (quot (lambda (a b q) (
+        if (< a b) (quot b a 0) (
+            if (> (* b (+ q 1)) a) q (
+                quot a b (+ q 1))))))
+    (rmdr  (lambda (a b) (
+        if (< a b) (rmdr b a) (- a (* (quot a b 0) b))
+    )))
+    (gcd (lambda (a b) (
+        if (< a 0) (gcd (- 0 a) b) (
+        if (< b 0) (gcd a (- 0 b)) (
+        if (= a 0) b (
+            if (= b 0) a (
+                let ((q (quot a b 0)) (r (rmdr a b))) (gcd b r)))))))))
+    (current-env))
+
+;; a function to find the GCD for naturals, and for any negative input it just evaluates to 0
+
+(letrec (
+    (gcd-pos (lambda (a b) (
+        if (< a 0) 0 (
+        if (< b 0) 0 (
+        if (= a 0) b (
+            if (= b 0) a (
+                let ((q (quot a b 0)) (r (rmdr a b))) (gcd b r)))))))))
+    (current-env))
+
+(letrec (
+    (gcd-nonzero (lambda (a b) (
+        if (< a 0) (gcd (- 0 a) b) (
+        if (< b 0) (gcd a (- 0 b)) (
+        if (= a 0) 0 (
+            if (= b 0) 0 (
+                let ((q (quot a b 0)) (r (rmdr a b))) (gcd b r)))))))))
+    (current-env))
