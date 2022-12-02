@@ -1,0 +1,15 @@
+;; This is a (purely functional) smart contract 
+(letrec 
+    ;; the contract "main" function 
+    ((sc-main (lambda (update_state state msg) 
+        (sc-main update_state (update_state state msg))))
+
+    ;; the contract's "init" function
+    ;; takes an entrypoint function update_state and a state
+    ;; the entrypoint function should be of the form:
+    ;;      (lambda (state msg) (<updated state>))
+    (sc-init (lambda (update_state init_state)
+        (sc-main update_state init_state))))
+
+    ;; where this executes 
+    (current-env))
