@@ -18,6 +18,14 @@
             (if (even e) (fastexp (* b b) (/ e 2))
                 (* b (fastexp (* b b) (/ (- e 1) 2)))))))
 
+    (odd64 (lambda (a) (eq 1u64 (% (u64 a) 2u64))))
+    (even64 (lambda (a) (eq NIL (odd64 a))))
+
+    (fastexp64 (lambda (b e)
+        (if (= e 0) 1
+            (if (even e) (fastexp64 (* (u64 b) (u64 b)) (/ e 2))
+                (* (u64 b) (fastexp64 (* (u64 b) (u64 b)) (/ (- e 1) 2)))))))
+
     ; GCD
     (gcd (lambda (a b) 
         (if (= a b) a
@@ -85,7 +93,7 @@
     (tree8 (lambda (a b c d e f g h)
         (hash2 
             (hash2 (hash2 a b) (hash2 c d)) 
-            (hash2 (hash2 c d) (hash2 e f))))) 
+            (hash2 (hash2 e f) (hash2 g h))))) 
 
     ; proof of membership check
     (treeproof8 (lambda (root x h1 h2 h3)

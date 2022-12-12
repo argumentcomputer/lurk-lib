@@ -25,4 +25,10 @@
 
 !(:assert-eq (hashn '(1 2)) (hash2 1 2))
 
+!(assert-eq (tree8 1 2 3 4 5 6 7 8)
+0x02fdb269fa0d532c68afb6120682cb0453255d71cdb09ac6323ef13a4dcada0e)
+
+
+
+
 
