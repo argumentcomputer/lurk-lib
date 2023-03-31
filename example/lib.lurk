@@ -1,2 +1,2 @@
-(letrec ((square (lambda (x) (* x x))))
-  (current-env))
+!(:def square (lambda (x) (* x x)))
+
