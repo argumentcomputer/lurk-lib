@@ -1,0 +1,104 @@
+; crypto.lurk
+; 
+; simple crypto-related functions
+;
+; load in repl as:
+; > :load "crypto.lurk"
+
+
+(letrec (
+
+    ; parity tests
+    (odd (lambda (a) (< (/ a 2) 0)))
+    (even (lambda (a) (eq NIL (odd a))))
+
+    ; square & multiply exponentiation
+    (fastexp (lambda (b e)
+        (if (= e 0) 1
+            (if (even e) (fastexp (* b b) (/ e 2))
+                (* b (fastexp (* b b) (/ (- e 1) 2)))))))
+
+    (odd64 (lambda (a) (eq 1u64 (% (u64 a) 2u64))))
+    (even64 (lambda (a) (eq NIL (odd64 a))))
+
+    (fastexp64 (lambda (b e)
+        (if (= e 0) 1
+            (if (even e) (fastexp64 (* (u64 b) (u64 b)) (/ e 2))
+                (* (u64 b) (fastexp64 (* (u64 b) (u64 b)) (/ (- e 1) 2)))))))
+
+    ; GCD
+    (gcd (lambda (a b) 
+        (if (= a b) a
+            (if (> a b) (gcd (- a b) b)
+                (gcd (- b a) a)))))
+
+    ; hash function, poseidon-like
+    ; 2-element permutation used by the hash
+    ; NOT cryptographically safe
+    (permute (lambda (a b)
+        (letrec ( 
+            (rnd (lambda (i a b) (let (
+                (mat1 (lambda (a b) (+ (/ a 3) (* b 5))))
+                (mat2 (lambda (a b) (+ (/ a 7) (* b 9))))
+                (sbox (lambda (a) (fastexp a 5)))
+                (add1 (lambda (a) (+ a (/ 2 3))))
+                (add2 (lambda (a) (+ a (/ 3 2))))
+                )
+                (cons
+                    (+ i (add1 (sbox (mat1 a b))))
+                    (add2 (sbox (mat2 a b)))))))
+            (iter (lambda (i a b)
+                (if (= i 4) ; 4 rounds
+                    (cons a b)
+                    (let (
+                        (res (rnd i a b))
+                        (a (car res))
+                        (b (cdr res))
+                        )
+                        (iter (+ i 1) a b)))))) 
+            (iter 0 a b))))
+
+    ; initial state of the hash will be (0 iv)
+    (iv (/ 5 2))
+
+    ; hash 1 element
+    (hash1 (lambda (a) (car (permute a iv))))
+
+    ; hash 2 elements
+    (hash2 (lambda (a b) 
+        (let (
+            (res1 (permute a iv))
+            (res2 (permute (+ b (car res1)) (cdr res1)))
+            )
+            (car res2))))
+
+    ; hash a list of elements
+    ; such that (hashn '(a b)) = (hash2 a b)
+    (hashn (lambda (alist) 
+        (if (eq alist nil) nil
+        (let (
+            (res0 (permute (car alist) iv))
+            )
+            (letrec (
+                (iter (lambda (blist a b) 
+                    (if (eq blist nil) a
+                        (let (
+                            (res (permute (+ (car blist) a) b))
+                            )
+                            (iter (cdr blist) (car res) (cdr res))))))
+                )
+                (iter (cdr alist) (car res0) (cdr res0)))))))
+
+    ; basic 8-leaf tree
+    (tree8 (lambda (a b c d e f g h)
+        (hash2 
+            (hash2 (hash2 a b) (hash2 c d)) 
+            (hash2 (hash2 e f) (hash2 g h))))) 
+
+    ; proof of membership check
+    (treeproof8 (lambda (root x h1 h2 h3)
+        (eq root (hash2 h1 (hash2 h2 (hash2 h3 x))))))
+            
+)
+(current-env))
+

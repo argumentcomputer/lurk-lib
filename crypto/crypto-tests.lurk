@@ -1,0 +1,34 @@
+; crypto-tests.lurk
+;
+; tests for crypto.lurk
+;
+; run in repl as:
+; > :run "crypto-tests.lurk"
+
+!(:load "crypto.lurk")
+
+!(:assert-eq (odd 0) NIL)
+!(:assert-eq (odd 121) T)
+!(:assert-eq (odd (/ 2 3)) T)
+
+!(:assert-eq (even 0) T)
+!(:assert-eq (even 121) NIL)
+!(:assert-eq (even (/ 2 3)) NIL)
+
+!(:assert-eq (fastexp 129 13) 2739468013418114691600975489)
+!(:assert-eq (fastexp 129 921) 0x188bc6b313e74bcf3c8f8ddb1311c5e892b271c636866b64930d3357600c7f3f)
+
+!(:assert-eq (gcd 11856 25883) 13)
+
+!(:assert-eq (hash1 3) 0x12c26d76c2dff4b314388dc4ed60788206d921608575f77b1b9340e17a41b015)
+!(:assert-eq (hashn '(1 2 3 4 5)) 0x0c46596ba7b418cdea2764e0c8f48d48c418ab1b7e141981aaddfb70d439666c)
+
+!(:assert-eq (hashn '(1 2)) (hash2 1 2))
+
+!(assert-eq (tree8 1 2 3 4 5 6 7 8)
+0x02fdb269fa0d532c68afb6120682cb0453255d71cdb09ac6323ef13a4dcada0e)
+
+
+
+
+
