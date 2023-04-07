@@ -1,4 +1,4 @@
-!(:defrec ev (lambda (exp env)
+!(defrec ev (lambda (exp env)
                (if (atom exp)
                    (env exp)
                    (if (eq 'lambda (car exp))
@@ -33,5 +33,5 @@
                                                  (arg (ev (car (cdr exp)) env)))
                                              (fun arg)))))))))))
 
-!(:def eval (lambda (exp) (ev exp (lambda (x) x))))
+!(def eval (lambda (exp) (ev exp (lambda (x) x))))
 

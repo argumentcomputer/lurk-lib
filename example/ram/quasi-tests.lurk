@@ -1,32 +1,32 @@
-!(:load "quasi.lurk")
+!(load "quasi.lurk")
 
-!(:assert-eq '(foo 1) (let ((foo 1)) (quasi (foo (uq foo)))))
+!(assert-eq '(foo 1) (let ((foo 1)) (quasi (foo (uq foo)))))
 
-!(:assert-eq '(foo (1 2 3)) (let ((foo 1)) (quasi (foo (1 2 (uq (+ 1 2)))))))
+!(assert-eq '(foo (1 2 3)) (let ((foo 1)) (quasi (foo (1 2 (uq (+ 1 2)))))))
 
-!(:assert-eq '(foo 1) (let ((foo 1)) `(foo ,foo)))
+!(assert-eq '(foo 1) (let ((foo 1)) `(foo ,foo)))
 
-!(:assert-eq '(foo (1 2 3)) (let ((foo 1)) `(foo (1 2 ,(+ 1 2)))))
+!(assert-eq '(foo (1 2 3)) (let ((foo 1)) `(foo (1 2 ,(+ 1 2)))))
 
 (defmacro bar (x) (cons 'quasi (cons x nil)))
-!(:assert-eq 2 (bar 2))
+!(assert-eq 2 (bar 2))
 
 (define y 2)
 
 (defmacro bar2 (x) `((lambda (x) x) ,x))
-!(:assert-eq 2 (bar2 2))
-!(:assert-eq 2 (bar2 y))
+!(assert-eq 2 (bar2 2))
+!(assert-eq 2 (bar2 y))
 
 (defmacro bar3 (x) `,x)
-!(:assert-eq 2 (bar3 2))
-!(:assert-eq 2 (bar3 y))
+!(assert-eq 2 (bar3 2))
+!(assert-eq 2 (bar3 y))
 
-!(:assert-eq '(1 2 3 4 5) `(1 ,@'(2 3) ,@'(4 5)))
-!(:assert-eq '(1 (2 3) (4 5)) `(1 ,'(2 3) ,'(4 5)))
+!(assert-eq '(1 2 3 4 5) `(1 ,@'(2 3) ,@'(4 5)))
+!(assert-eq '(1 (2 3) (4 5)) `(1 ,'(2 3) ,'(4 5)))
 
-!(:assert-eq '(foo 3) `(foo ,(+ 1 2)))
+!(assert-eq '(foo 3) `(foo ,(+ 1 2)))
 
-!(:clear)
+!(clear)
 
 (defmacro foo (x ys)
   `(defmacro ,x ()
@@ -34,4 +34,4 @@
 
 (foo bar (x y))
 
-!(:assert-eq 1 ((bar) 1 2))
+!(assert-eq 1 ((bar) 1 2))

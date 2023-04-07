@@ -1,7 +1,7 @@
 ;; A database to keep track of who likes whom.
 ;; Simplest possible thing: the whole database is a list of likes, where a like is a (who . whom) pair.
 ;; Very inefficient.
-!(:set-env (letrec ((likes-p-aux
+!(set-env (letrec ((likes-p-aux
                      (lambda (db target-pair)
                        (if db
                            (if (eq (car db) target-pair)

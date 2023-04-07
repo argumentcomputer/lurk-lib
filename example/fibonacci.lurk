@@ -1,5 +1,5 @@
 ;; (FIB TARGET) computes the element of the Fibonacci sequence at TARGET (zero-indexed).
-!(:defrec next (lambda (a b n target)
+!(defrec next (lambda (a b n target)
                  (if (eq n target)
                      a
                      (next b
@@ -7,5 +7,5 @@
                            (+ 1 n)
                            target))))
 
-!(:def fib (next 0 1 0))
+!(def fib (next 0 1 0))
 

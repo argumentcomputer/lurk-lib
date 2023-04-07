@@ -1,10 +1,10 @@
-!(:load "fibonacci.lurk")
+!(load "fibonacci.lurk")
 
-!(:assert-eq 3 (fib 4))
-!(:assert-eq 55 (fib 10))
+!(assert-eq 3 (fib 4))
+!(assert-eq 55 (fib 10))
 
-!(:clear)
+!(clear)
 
-!(:load "fibonacci-stream.lurk")
+!(load "fibonacci-stream.lurk")
 
 ;; TODO: We need a way to test emitted values and to set the iteration limit.
