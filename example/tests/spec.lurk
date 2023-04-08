@@ -1,13 +1,13 @@
 ;; outer-evaluate
-!(:assert-eq 99 ((lambda (x) x) 99))
+!(assert-eq 99 ((lambda (x) x) 99))
 
 ;; outer-evaluate2
-!(:assert-eq 99 ((lambda (y)
+!(assert-eq 99 ((lambda (y)
                    ((lambda (x) y) 888))
                  99))
 
 ;; outer-evaluate3
-!(:assert-eq 999 ((lambda (y)
+!(assert-eq 999 ((lambda (y)
                     ((lambda (x)
                        ((lambda (z) z)
                         x))
@@ -15,7 +15,7 @@
                   999))
 
 ;; outer-evaluate4
-!(:assert-eq 888 ((lambda (y)
+!(assert-eq 888 ((lambda (y)
                     ((lambda (x)
                        ((lambda (z) z)
                         x))
@@ -24,51 +24,51 @@
                   999))
 
 ;; outer-evaluate5
-!(:assert-eq 999 (((lambda (fn)
+!(assert-eq 999 (((lambda (fn)
                      (lambda (x) (fn x)))
                    (lambda (y) y))
                   999))
 
 ;; outer-evaluate-sum
-!(:assert-eq 9 (+ 2 (+ 3 4)))
+!(assert-eq 9 (+ 2 (+ 3 4)))
 
 ;; outer-evaluate-diff
-!(:assert-eq 4 (- 9 5))
+!(assert-eq 4 (- 9 5))
 
 ;; outer-evaluate-product
-!(:assert-eq 45 (* 9 5))
+!(assert-eq 45 (* 9 5))
 
 ;; outer-evaluate-quotient
-!(:assert-eq 3 (/ 21 7))
+!(assert-eq 3 (/ 21 7))
 
 ;; outer-evaluate-num-equal 1
-!(:assert-eq t (= 5 5))
+!(assert-eq t (= 5 5))
 
 ;; outer-evaluate-num-equal 2
-!(:assert-eq nil (= 5 6))
+!(assert-eq nil (= 5 6))
 
 ;; outer-evaluate-adder
-!(:assert-eq 5 (((lambda (x)
+!(assert-eq 5 (((lambda (x)
                    (lambda (y)
                      (+ x y)))
                  2)
                 3))
 
 ;; outer-evaluate-let-simple
-!(:assert-eq 1 (let ((a 1))
+!(assert-eq 1 (let ((a 1))
                  a))
 
 ;; outer-evaluate-let-bug
-!(:assert-eq (cons 1 2) (let () (cons 1 2)))
+!(assert-eq (cons 1 2) (let () (cons 1 2)))
 
 ;; outer-evaluate-let
-!(:assert-eq 6 (let ((a 1)
+!(assert-eq 6 (let ((a 1)
                       (b 2)
                       (c 3))
                  (+ a (+ b c))))
 
 ;; outer-evaluate-arithmetic
-!(:assert-eq 20 ((((lambda (x)
+!(assert-eq 20 ((((lambda (x)
                      (lambda (y)
                        (lambda (z)
                          (* z
@@ -80,23 +80,23 @@
 ;; NOTE: I think this test has drifted and is defunct.
 ;; It's equivalent to outer-evaluate-let-simple.
 ;; outer-evaluate-arithmetic-simplest
-!(:assert-eq 2 (let ((x 2)) x))
+!(assert-eq 2 (let ((x 2)) x))
 
 ;; outer-evaluate-arithmetic-let
-!(:assert-eq 20 (let ((x 2)
+!(assert-eq 20 (let ((x 2)
                        (y 3)
                        (z 4))
                   (* z (+ x y))))
 
 ;; outer-evaluate-arithmetic-comparison
-!(:assert-eq t (let ((x 2)
+!(assert-eq t (let ((x 2)
                       (y 3)
                       (z 4))
                  (= 20 (* z
                           (+ x y)))))
 
 ;; outer-evaluate-fundamental-conditional 1
-!(:assert-eq 5 (let ((true (lambda (a)
+!(assert-eq 5 (let ((true (lambda (a)
                               (lambda (b)
                                 a)))
                       (false (lambda (a)
@@ -110,7 +110,7 @@
                  (((if- 5) 6) true)))
 
 ;; outer-evaluate-fundamental-conditional 2
-!(:assert-eq 6 (let ((true (lambda (a)
+!(assert-eq 6 (let ((true (lambda (a)
                               (lambda (b)
                                 a)))
                       (false (lambda (a)
@@ -124,7 +124,7 @@
                  (((if- 5) 6) false)))
 
 ;; outer-evaluate-fundamental-conditional-bug
-!(:assert-eq 5 (let ((true (lambda (a)
+!(assert-eq 5 (let ((true (lambda (a)
                               (lambda (b)
                                 a)))
                       ;; NOTE: We cannot shadow IF because it is built-in.
@@ -135,13 +135,13 @@
                  (((if- 5) 6) true)))
 
 ;; outer-evaluate-if
-!(:assert-eq 6 (if nil 5 6))
+!(assert-eq 6 (if nil 5 6))
 
 ;; outer-evaluate-fully-evaluates
-!(:assert-eq 10 (if t (+ 5 5) 6))
+!(assert-eq 10 (if t (+ 5 5) 6))
 
 ;; outer-evaluate-recursion
-!(:assert-eq 125 (letrec ((exp (lambda (base)
+!(assert-eq 125 (letrec ((exp (lambda (base)
                                   (lambda (exponent)
                                     (if (= 0 exponent)
                                         1
@@ -149,14 +149,14 @@
                           ((exp 5) 3)))
 
 ;; outer-evaluate-recursion-multiarg
-!(:assert-eq 125 (letrec ((exp (lambda (base exponent)
+!(assert-eq 125 (letrec ((exp (lambda (base exponent)
                                   (if (= 0 exponent)
                                       1
                                       (* base (exp base (- exponent 1)))))))
                           (exp 5 3)))
 
 ;; outer-evaluate-recursion-optimized
-!(:assert-eq 125 (let ((exp (lambda (base)
+!(assert-eq 125 (let ((exp (lambda (base)
                                (letrec ((base-inner
                                           (lambda (exponent)
                                             (if (= 0 exponent)
@@ -166,7 +166,7 @@
                    ((exp 5) 3)))
 
 ;; outer-evaluate-tail-recursion
-!(:assert-eq 125 (letrec ((exp (lambda (base)
+!(assert-eq 125 (letrec ((exp (lambda (base)
                                   (lambda (exponent-remaining)
                                     (lambda (acc)
                                       (if (= 0 exponent-remaining)
@@ -175,7 +175,7 @@
                           (((exp 5) 3) 1)))
 
 ;; outer-evaluate-tail-recursion-somewhat-optimized
-!(:assert-eq 125 (letrec ((exp (lambda (base)
+!(assert-eq 125 (letrec ((exp (lambda (base)
                                   (letrec ((base-inner
                                              (lambda (exponent-remaining)
                                                (lambda (acc)
@@ -186,7 +186,7 @@
                           (((exp 5) 3) 1)))
 
 ;; outer-evaluate-no-mutual-recursion
-!(:assert-eq t (letrec ((even (lambda (n)
+!(assert-eq t (letrec ((even (lambda (n)
                                  (if (= 0 n)
                                      t
                                      (odd (- n 1)))))
@@ -197,7 +197,7 @@
                         (odd 1)))
 
 ;; outer-evaluate-no-mutual-recursion
-!(:assert-error (letrec ((even (lambda (n)
+!(assert-error (letrec ((even (lambda (n)
                                   (if (= 0 n)
                                       t
                                       (odd (- n 1)))))
@@ -209,108 +209,108 @@
 
 ;; outer-evaluate-let-scope
 
-!(:assert-error (let ((closure (lambda (x)
+!(assert-error (let ((closure (lambda (x)
                                  ;; This use of CLOSURE is unbound.
                                  closure)))
                   (closure 1)))
 
 ;; outer-evaluate-let-no-body
-!(:assert-error (let ((a 9))))
+!(assert-error (let ((a 9))))
 
 ;; outer-prove-quote-end-is-nil-error
-!(:assert-error (quote (1) (2)))
+!(assert-error (quote (1) (2)))
 
 ;; outer-prove-if-end-is-nil-error
-!(:assert-error (if nil 5 6 7))
+!(assert-error (if nil 5 6 7))
 
 ;; outer-prove-binop-rest-is-nil
-!(:assert-error (- 9 8 7))
+!(assert-error (- 9 8 7))
 
 ;; outer-prove-relop-rest-is-nil
-!(:assert-error (= 9 8 7))
+!(assert-error (= 9 8 7))
 
 ;; outer-prove-error-div-by-zero
-!(:assert-error (/ 21 0))
+!(assert-error (/ 21 0))
 
 ;; outer-prove-error-invalid-type-and-not-cons
-!(:assert-error (/ 21 nil))
+!(assert-error (/ 21 nil))
 
 ;; outer-prove-evaluate-current-env-rest-is-nil-error
-!(:assert-error (current-env a))
+!(assert-error (current-env a))
 
 ;; outer-prove-evaluate-let-end-is-nil-error
-!(:assert-error (let ((a 1 2)) a))
+!(assert-error (let ((a 1 2)) a))
 
 ;; outer-prove-evaluate-letrec-end-is-nil-error
-!(:assert-error (letrec ((a 1 2)) a))
+!(assert-error (letrec ((a 1 2)) a))
 
 ;; outer-prove-evaluate-let-empty-error
-!(:assert-error (let))
+!(assert-error (let))
 
 ;; outer-prove-evaluate-let-empty-body-error
-!(:assert-error (let ((a 1))))
+!(assert-error (let ((a 1))))
 
 ;; outer-prove-evaluate-letrec-empty-error
-!(:assert-error (letrec))
+!(assert-error (letrec))
 
 ;; outer-prove-evaluate-letrec-empty-body-error
-!(:assert-error (letrec ((a 1))))
+!(assert-error (letrec ((a 1))))
 
 ;; outer-prove-evaluate-let-rest-body-is-nil-error
-!(:assert-error (let ((a 1)) a 1))
+!(assert-error (let ((a 1)) a 1))
 
 ;; outer-prove-evaluate-letrec-rest-body-is-nil-error
-!(:assert-error (letrec ((a 1)) a 1))
+!(assert-error (letrec ((a 1)) a 1))
 
 ;; outer-prove-error-car-end-is-nil-error
-!(:assert-error (car (1 2) 3))
+!(assert-error (car (1 2) 3))
 
 ;; outer-prove-error-cdr-end-is-nil-error
-!(:assert-error (cdr (1 2) 3))
+!(assert-error (cdr (1 2) 3))
 
 ;; outer-prove-error-atom-end-is-nil-error
-!(:assert-error (atom 123 4))
+!(assert-error (atom 123 4))
 
 ;; outer-prove-error-emit-end-is-nil-error
-!(:assert-error (emit 123 4))
+!(assert-error (emit 123 4))
 
 ;; outer-prove-error-zero-arg-lambda4
-!(:assert-error ((lambda () 123) 1))
+!(assert-error ((lambda () 123) 1))
 
 ;; outer-prove-error-zero-arg-lambda5
-!(:assert-error (123))
+!(assert-error (123))
 
 ;; outer-evaluate-cons 1
-!(:assert-eq 1 (car (cons 1 2)))
+!(assert-eq 1 (car (cons 1 2)))
 
 ;; outer-evaluate-cons 2
-!(:assert-eq 2 (cdr (cons 1 2)))
+!(assert-eq 2 (cdr (cons 1 2)))
 
 ;; outer-evaluate-cons-in-function 1
-!(:assert-eq 2 (((lambda (a)
+!(assert-eq 2 (((lambda (a)
                    (lambda (b)
                      (car (cons a b))))
                  2)
                 3))
 
 ;; outer-evaluate-cons-in-function 2
-!(:assert-eq 3 (((lambda (a)
+!(assert-eq 3 (((lambda (a)
                    (lambda (b)
                      (cdr (cons a b))))
                  2)
                 3))
 
 ;; multiarg-eval-bug
-!(:assert-eq 2 (car (cdr '(1 2 3 4))))
+!(assert-eq 2 (car (cdr '(1 2 3 4))))
 
 ;; outer-evaluate-zero-arg-lambda 1
-!(:assert-eq 123 ((lambda () 123)))
+!(assert-eq 123 ((lambda () 123)))
 
 ;; outer-evaluate-zero-arg-lambda 2
-!(:assert-eq 10 (let ((x 9) (f (lambda () (+ x 1)))) (f)))
+!(assert-eq 10 (let ((x 9) (f (lambda () (+ x 1)))) (f)))
 
 ;; minimal-tail-call
-!(:assert-eq 123 (letrec
+!(assert-eq 123 (letrec
                   ((f (lambda (x)
                         (if (= x 140)
                             123
@@ -318,7 +318,7 @@
                   (f 0)))
 
 ;; multiple-letrec-bindings
-!(:assert-eq 123 (letrec
+!(assert-eq 123 (letrec
                   ((x 888)
                    (f (lambda (x)
                         (if (= x 5)
@@ -327,7 +327,7 @@
                   (f 0)))
 
 ;; tail-call2
-!(:assert-eq 123 (letrec
+!(assert-eq 123 (letrec
                   ((f (lambda (x)
                         (if (= x 5)
                             123
@@ -336,7 +336,7 @@
                   (g 0)))
 
 ;; outer-evaluate-make-tree
-!(:assert-eq '(((h . g) . (f . e)) . ((d . c) . (b . a)))
+!(assert-eq '(((h . g) . (f . e)) . ((d . c) . (b . a)))
              (letrec ((mapcar (lambda (f list)
                                  (if (eq list nil)
                                      nil
@@ -363,17 +363,17 @@
                        (make-tree '(a b c d e f g h)))))
 
 ;; outer-evaluate-multiple-letrecstar-bindings
-!(:assert-eq 13 (letrec ((double (lambda (x) (* 2 x)))
+!(assert-eq 13 (letrec ((double (lambda (x) (* 2 x)))
                           (square (lambda (x) (* x x))))
                          (+ (square 3) (double 2))))
 
 ;; outer-evaluate-multiple-letrecstar-bindings-referencing
-!(:assert-eq 11 (letrec ((double (lambda (x) (* 2 x)))
+!(assert-eq 11 (letrec ((double (lambda (x) (* 2 x)))
                           (double-inc (lambda (x) (+ 1 (double x)))))
                          (+ (double 3) (double-inc 2))))
 
 ;; outer-evaluate-multiple-letrecstar-bindings-recursive
-!(:assert-eq 33 (letrec ((exp (lambda (base exponent)
+!(assert-eq 33 (letrec ((exp (lambda (base exponent)
                                  (if (= 0 exponent)
                                      1
                                      (* base (exp base (- exponent 1))))))
@@ -389,28 +389,28 @@
                             (exp3 4 2))))
 
 ;; dont-discard-rest-env
-!(:assert-eq 18 (let ((z 9))
+!(assert-eq 18 (let ((z 9))
                   (letrec ((a 1)
                             (b 2)
                             (l (lambda (x) (+ z x))))
                            (l 9))))
 
 ;; let-restore-saved-env
-!(:assert-error (+ (let ((a 1)) a) a))
+!(assert-error (+ (let ((a 1)) a) a))
 
 ;; let-restore-saved-env2
-!(:assert-error (+ (let ((a 1) (a 2)) a) a))
+!(assert-error (+ (let ((a 1) (a 2)) a) a))
 
 ;; letrec-restore-saved-env
-!(:assert-error (+ (letrec ((a 1)(a 2)) a) a))
+!(assert-error (+ (letrec ((a 1)(a 2)) a) a))
 
 ;; lookup-restore-saved-env
-!(:assert-error (+ (let ((a 1))
+!(assert-error (+ (let ((a 1))
                      a)
                    a))
 
 ;; tail-call-restore-saved-env
-!(:assert-error (let ((outer (letrec
+!(assert-error (let ((outer (letrec
                                ((x 888)
                                 (f (lambda (x)
                                      (if (= x 2)
@@ -421,128 +421,128 @@
                   (+ (outer 0) x)))
 
 ;; binop-restore-saved-env
-!(:assert-error (let ((outer (let ((f (lambda (x)
+!(assert-error (let ((outer (let ((f (lambda (x)
                                           (+ (let ((a 9)) a) x))))
                                 f)))
                   ;; This should be an error. X should not be bound here.
                   (+ (outer 1) x)))
 
 ;; env-let
-!(:assert-eq '((a . 1)) (let ((a 1)) (current-env)))
+!(assert-eq '((a . 1)) (let ((a 1)) (current-env)))
 
 ;; env-let-nested
-!(:assert-eq '((b . 2) (a . 1)) (let ((a 1)) (let ((b 2)) (current-env))))
+!(assert-eq '((b . 2) (a . 1)) (let ((a 1)) (let ((b 2)) (current-env))))
 
 ;; env-letrec
-!(:assert-eq '(((a . 1))) (letrec ((a 1)) (current-env)))
+!(assert-eq '(((a . 1))) (letrec ((a 1)) (current-env)))
 
 ;; env-letrec-nested
-!(:assert-eq '(((b . 2)  (a . 1))) (letrec ((a 1)) (letrec ((b 2)) (current-env))))
+!(assert-eq '(((b . 2)  (a . 1))) (letrec ((a 1)) (letrec ((b 2)) (current-env))))
 
 ;; env-let-letrec-let
-!(:assert-eq '((e . 5) ((d . 4) (c . 3)) (b . 2) (a . 1))
+!(assert-eq '((e . 5) ((d . 4) (c . 3)) (b . 2) (a . 1))
              (let ((a 1) (b 2)) (letrec ((c 3) (d 4)) (let ((e 5)) (current-env)))))
 
 
-!(:assert-eq 3 (begin (emit 1) (emit 2) (emit 3)))
+!(assert-eq 3 (begin (emit 1) (emit 2) (emit 3)))
 
-!(:assert-eq nil (begin))
+!(assert-eq nil (begin))
 
-!(:assert-eq '((a . 1)) (let ((a 1))
+!(assert-eq '((a . 1)) (let ((a 1))
                           (begin
                            (let ((b 2))
                              (emit b))
                            (current-env))))
 
-!(:assert-emitted '(1 2 3) (begin (emit 1) (emit 2) (emit 3)))
+!(assert-emitted '(1 2 3) (begin (emit 1) (emit 2) (emit 3)))
 
 ;;; Strings are proper lists of characters and are tagged as such.
 
 ;; Get the first character of a string with CAR
-!(:assert-eq #\a (car "asdf"))
+!(assert-eq #\a (car "asdf"))
 
 ;; Get the tail with CDR
-!(:assert-eq "sdf" (cdr "asdf"))
+!(assert-eq "sdf" (cdr "asdf"))
 
 ;; Construct a string from a character and another string.
-!(:assert-eq "dog" (strcons #\d "og"))
+!(assert-eq "dog" (strcons #\d "og"))
 
 ;; Including the empty string.
-!(:assert-eq "z" (strcons #\z ""))
+!(assert-eq "z" (strcons #\z ""))
 
 ;; Construct a pair from a character and another string.
-!(:assert-eq '(#\d . "og") (cons #\d "og"))
+!(assert-eq '(#\d . "og") (cons #\d "og"))
 
 ;; Including the empty string.
-!(:assert-eq '(#\z . "") (cons #\z ""))
+!(assert-eq '(#\z . "") (cons #\z ""))
 
 ;; The empty string is the string terminator ("")
-!(:assert-eq "" (cdr "x"))
+!(assert-eq "" (cdr "x"))
 
 ;; The CDR of the empty string is the empty string.
-!(:assert-eq "" (cdr ""))
+!(assert-eq "" (cdr ""))
 
 ;; The CAR of the empty string is NIL (neither a character nor a string).
-!(:assert-eq nil (car ""))
+!(assert-eq nil (car ""))
 
 ;; CONSing two strings yields a pair, not a string.
-!(:assert-eq '("a" . "b") (cons "a" "b"))
+!(assert-eq '("a" . "b") (cons "a" "b"))
 
 ;; CONSing two characters yields a pair, not a string.
-!(:assert-eq '(#\a . #\b) (cons #\a #\b))
+!(assert-eq '(#\a . #\b) (cons #\a #\b))
 
 ;; STRCONSing two strings is an error.
-!(:assert-error (strcons "a" "b"))
+!(assert-error (strcons "a" "b"))
 
 ;; STRCONSing two characters is an error.
-!(:assert-error (strcons #\a #\b))
+!(assert-error (strcons #\a #\b))
 
 ;; STRCONSing anything but a character and a string is an error.
-!(:assert-error (strcons 1 'foo))
+!(assert-error (strcons 1 'foo))
 
 ;;; A char is any 32-bit unicode character, but we currently only have reader support for whatever can be entered directly.
-!(:assert-eq #\Ŵ (car "ŴTF?"))
+!(assert-eq #\Ŵ (car "ŴTF?"))
 
 ;;; Commitments
-!(:assert (let ((c (commit 123)))
+!(assert (let ((c (commit 123)))
            (eq c (hide 0 123))))
 
-!(:assert-eq 123 (open (commit 123)))
+!(assert-eq 123 (open (commit 123)))
 
-!(:assert-eq 123 (open (num (commit 123))))
+!(assert-eq 123 (open (num (commit 123))))
 
 ;; Showing that (NUM c) is numeric.
-!(:assert-eq (num (commit 123)) (* 1 (num (commit 123))))
+!(assert-eq (num (commit 123)) (* 1 (num (commit 123))))
 
-!(:assert-eq (commit 123) (comm (num (commit 123))))
+!(assert-eq (commit 123) (comm (num (commit 123))))
 
 
-!(:assert (let ((c (commit 123))
+!(assert (let ((c (commit 123))
                 (c2 (hide 0 123)))
             (eq (num c) (num c2))))
 
 
 ;;; Char-Num conversions.
-!(:assert-eq 65 (num #\A))
+!(assert-eq 65 (num #\A))
 
-!(:assert-eq #\A (char 65))
+!(assert-eq #\A (char 65))
 
 ;;; Relational comparisons
-!(:assert (let ((most-positive (/ (- 0 1) 2))
+!(assert (let ((most-positive (/ (- 0 1) 2))
                 (most-negative (+ 1 most-positive)))
             (< most-negative most-positive)))
 
-!(:assert (< 1 2))
-!(:assert (<= 1 2))
-!(:assert (<= 1 1))
-!(:assert (> 2 1))
-!(:assert (>= 2 1))
-!(:assert (>= 1 1))
+!(assert (< 1 2))
+!(assert (<= 1 2))
+!(assert (<= 1 1))
+!(assert (> 2 1))
+!(assert (>= 2 1))
+!(assert (>= 1 1))
 
 ;;; Extended numeric syntax
-!(:assert-eq (- 0 1) -1)
-!(:assert-eq (/ 1 2) 1/2)
-!(:assert-eq (- 0 (/ 1 2)) -1/2)
+!(assert-eq (- 0 1) -1)
+!(assert-eq (/ 1 2) 1/2)
+!(assert-eq (- 0 (/ 1 2)) -1/2)
 
-!(:assert-eq 5/6 (+ 1/3 1/2))
+!(assert-eq 5/6 (+ 1/3 1/2))
 

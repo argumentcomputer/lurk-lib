@@ -1,6 +1,6 @@
-!(:load "meta.lurk")
+!(load "meta.lurk")
 
-!(:assert-eq 720
+!(assert-eq 720
              (let
                  ((Y '(lambda (fun)
                        ((lambda (F)
@@ -15,10 +15,10 @@
                   (fact6 (eval (cons (cons Y (cons fact '())) (cons 6 '())))))
                fact6))
 
-!(:clear)
-!(:load "meta-letrec.lurk")
+!(clear)
+!(load "meta-letrec.lurk")
 
-!(:assert-eq 720
+!(assert-eq 720
              (let
                  ((Y '(lambda (fun)
                        ((lambda (F)

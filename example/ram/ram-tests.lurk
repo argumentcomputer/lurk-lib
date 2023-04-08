@@ -2,20 +2,20 @@
 
 (define bar 2)
 
-!(:assert-eq '(2 . 2) (foo 2 bar))
+!(assert-eq '(2 . 2) (foo 2 bar))
 
 (define baz (lambda (x) 1))
 
-!(:assert-eq 1 (baz bar))
+!(assert-eq 1 (baz bar))
 
-!(:assert-eq 'boom (define boom 2))
+!(assert-eq 'boom (define boom 2))
 
-!(:load "ram-lib.lurk")
+!(load "ram-lib.lurk")
 
-!(:assert-eq 3 (+ x1 x2))
+!(assert-eq 3 (+ x1 x2))
 
 (define to0 (lambda (n) (if (eq n 0) 'done (to0 (- n 1)))))
-!(:assert-eq 'done (to0 3))
+!(assert-eq 'done (to0 3))
 
 (define top 0)
-!(:assert-eq 1 (let ((top 1)) top))
+!(assert-eq 1 (let ((top 1)) top))

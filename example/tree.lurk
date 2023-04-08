@@ -1,4 +1,4 @@
-!(:set-env (letrec ((mapcar (lambda (f list)
+!(set-env (letrec ((mapcar (lambda (f list)
                               (if (eq list nil)
                                   nil
                                   (cons (f (car list)) (mapcar f (cdr list))))))

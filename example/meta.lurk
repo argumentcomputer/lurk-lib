@@ -1,4 +1,4 @@
-!(:defrec ev (lambda (exp env)
+!(defrec ev (lambda (exp env)
                (if (atom exp)
                    (env exp)
                    (if (eq 'lambda (car exp))
@@ -28,5 +28,5 @@
                                                    arg
                                                    (clo-env x)))))))))))))
 
-!(:def eval (lambda (exp) (ev exp (lambda (x) x))))
+!(def eval (lambda (exp) (ev exp (lambda (x) x))))
 

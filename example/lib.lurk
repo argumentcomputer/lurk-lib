@@ -1,2 +1,2 @@
-!(:def square (lambda (x) (* x x)))
+!(def square (lambda (x) (* x x)))
 
