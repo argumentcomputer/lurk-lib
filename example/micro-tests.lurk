@@ -5,16 +5,16 @@
 
 !(assert-eq '(((((var . 0) . 5) ((var dummy))) . 1)) ((call/fresh (lambda (q) (== q 5))) empty-state))
 
-!(assert-eq' (((((var . 1) . 5) ((var . 0) . 7) ((var dummy))) . 2)
+!(assert-eq '(((((var . 1) . 5) ((var . 0) . 7) ((var dummy))) . 2)
                ((((var . 1) . 6) ((var . 0) . 7) ((var dummy))) . 2))
 
               (take-all (a-and-b empty-state)))
 
 !(assert-eq '(((((var . 0) . 5) ((var dummy))) . 1)) (take 1 ((call/fresh (lambda (q) (fives q))) empty-state)))
 
-!(assert-eq '((((var . 2) B) ((var . 1)) ((var . 0) . A) ((var dummy))) . 3) (car (((appendo '(a) '(b) '(a b)) empty-state))))
+!(assert-eq '((((var . 2) b) ((var . 1)) ((var . 0) . a) ((var dummy))) . 3) (car (((appendo '(a) '(b) '(a b)) empty-state))))
 
-!(assert-eq '((((var . 2) B) ((var . 1)) ((var . 0) . A) ((var dummy))) . 3) (car (((appendo2 '(a) '(b) '(a b)) empty-state))))
+!(assert-eq '((((var . 2) b) ((var . 1)) ((var . 0) . a) ((var dummy))) . 3) (car (((appendo2 '(a) '(b) '(a b)) empty-state))))
 
 !(assert-eq '(((((var . 0) (var . 1) (var . 2) (var . 3)) ((var . 2) var . 3)
                  ((var . 1)) ((var dummy)))
@@ -30,6 +30,6 @@
                 . 4)
                ((((var . 0) (var . 1) (var . 2) (var . 3)) ((var . 3) (var . 4) var . 6)
                  ((var . 2) var . 6) ((var . 5)) ((var . 1) (var . 4) var . 5)
-                 ((var DUMMY)))
+                 ((var dummy)))
                 . 7))
              (take 2 (call-appendo2 empty-state)))
