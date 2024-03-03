@@ -1,0 +1,7 @@
+!(load "bool.lurk")
+!(load "list.lurk")
+
+!(defrec apply (lambda (f xs) (if xs (apply (f (car xs)) (cdr xs)) f)))
+
+!(def neq (lambda (x) (if x nil t))
+!(def or (lambda (x y) if x nil t))

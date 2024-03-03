@@ -1,0 +1,34 @@
+!(def reverse (lambda (text)
+  (letrec (
+    (reverse-inner (lambda (acc text)
+      (if (eq text "")
+        acc
+        (reverse-inner (strcons (car text) acc) (cdr text))))))
+    (reverse-inner "" text))))
+
+!(def split-at (lambda (index text)
+  (letrec (
+    (split-at-inner (lambda (index acc text)
+      (if (eq text "") (cons (acc "") text)
+      (if (eq index 0) (cons (acc "") text)
+        (split-at-inner (- index 1)
+          (lambda (xs) (acc (strcons (car text) xs)))
+        (cdr text)))))))
+    (split-at-inner index (lambda (x) x) text))))
+
+!(defrec split-at-slower (lambda (index text)
+  (if (eq text "") (cons "" text)
+  (if (eq index 0) (cons "" text)
+    (let
+      ((deep (split-at-slower (- index 1) (cdr text)))
+       (before-index (car deep))
+       (after-index (cdr deep)))
+      (cons (strcons (car text) before-index) after-index))))))
+
+!(def split-at-slowest (lambda (index text)
+  (letrec (
+    (split-at-inner (lambda (index acc text)
+      (if (eq text "") (cons (reverse acc) text)
+      (if (eq index 0) (cons (reverse acc) text)
+        (split-at-inner (- index 1) (strcons (car text) acc) (cdr text)))))))
+    (split-at-inner index "" text))))

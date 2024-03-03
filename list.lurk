@@ -1,0 +1,9 @@
+!(def first (lambda (xs) (if (atom xs) nil (car xs))))
+!(def rest (lambda (xs) (if (atom xs) nil (cdr xs))))
+
+!(defrec last (lambda (xs) (if (atom xs) xs (last (cdr xs)))))
+!(defrec is-proper (lambda (xs) (eq (last xs) nil)))
+
+!(defrec map (lambda (f xs)
+  (if xs (cons (f (car xs)) (map f (cdr xs))) nil)
+))

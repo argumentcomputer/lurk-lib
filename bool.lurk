@@ -1,0 +1,18 @@
+
+;; bool -> bool
+!(def not (lambda (x) (if x nil 't)))
+
+;; | x y | nor | xor | nand | and | xnor | or |
+;; | t t | f   | f   | f    | t   | t    | t  |
+;; | t f | f   | t   | t    | f   | f    | t  |
+;; | f t | f   | t   | t    | f   | f    | t  |
+;; | f f | t   | f   | t    | f   | f    | f  |
+
+!(def nor (lambda (x y) (if x nil (not y))))
+!(def xor (lambda (x y) (if x (not y) y)))
+!(def nand (lambda (x y) (if x (not y) 't)))
+!(def and (lambda (x y) (if x y x)))
+!(def xnor (lambda (x y) (if x y nil)))
+!(def or (lambda (x y) (if x x y)))
+
+!(def neq (lambda (x y) (not (eq x y))))

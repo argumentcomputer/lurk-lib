@@ -1,0 +1,35 @@
+!(load "bool.lurk")
+
+!(assert-eq (not nil) 't)
+!(assert-eq (not 't) nil)
+
+!(assert-eq (nor 't 't) nil)
+!(assert-eq (nor 't nil) nil)
+!(assert-eq (nor nil 't) nil)
+!(assert-eq (nor nil nil) 't)
+
+!(assert-eq (xor 't 't) nil)
+!(assert-eq (xor 't nil) 't)
+!(assert-eq (xor nil 't) 't)
+!(assert-eq (xor nil nil) nil)
+
+!(assert-eq (nand 't 't) nil)
+!(assert-eq (nand 't nil) 't)
+!(assert-eq (nand nil 't) 't)
+!(assert-eq (nand nil nil) 't)
+
+!(assert-eq (and 't 't) 't)
+!(assert-eq (and 't nil) nil)
+!(assert-eq (and nil 't) nil)
+!(assert-eq (and nil nil) nil)
+
+!(assert-eq (xnor 't 't) 't)
+!(assert-eq (xnor 't nil) nil)
+!(assert-eq (xnor nil 't) nil)
+!(assert-eq (xnor nil nil) nil)
+
+!(assert-eq (or 't 't) 't)
+!(assert-eq (or 't nil) 't)
+!(assert-eq (or nil 't) 't)
+!(assert-eq (or nil nil) nil)
+
